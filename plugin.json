@@ -1,0 +1,11 @@
+{
+    "id": "whozidis/hall-of-fame",
+    "name": "Hall of Fame",
+    "namespace": "Whozidis\\HallOfFame\\",
+    "provider": "Whozidis\\HallOfFame\\Providers\\HallOfFameServiceProvider",
+    "author": "Who Zid IS",
+    "url": "https://whozidis.com",
+    "version": "1.0.0",
+    "description": "Security Hall of Fame - Allow users to submit vulnerability reports securely",
+    "minimum_core_version": "7.3.0"
+}
