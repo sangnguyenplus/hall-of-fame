@@ -16,6 +16,7 @@ class Researcher extends BaseModel
         'twitter',
         'github',
         'bio',
+        'password',
     ];
 
     public function vulnerabilityReports(): HasMany

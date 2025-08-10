@@ -32,10 +32,10 @@ class HallOfFameServiceProvider extends ServiceProvider
 
         // Load configurations
         $this->loadAndPublishConfigurations(['permissions', 'general']);
-        
+
         // Load translations
         $this->loadAndPublishTranslations();
-        
+
         // Load migrations
         $this->loadMigrations();
 
@@ -57,10 +57,30 @@ class HallOfFameServiceProvider extends ServiceProvider
                 'id' => 'cms-plugins-hall-of-fame',
                 'priority' => 5,
                 'parent_id' => null,
-                'name' => 'plugins/hall-of-fame::vulnerability-reports.name',
+                'name' => 'Hall of Fame',
                 'icon' => 'fa fa-shield-alt',
+                'url' => '#',
+                'permissions' => ['vulnerability-reports.index', 'researchers.index'],
+            ]);
+
+            DashboardMenu::registerItem([
+                'id' => 'cms-plugins-vulnerability-reports',
+                'priority' => 1,
+                'parent_id' => 'cms-plugins-hall-of-fame',
+                'name' => 'plugins/hall-of-fame::vulnerability-reports.name',
+                'icon' => 'fa fa-bug',
                 'url' => 'vulnerability-reports',
                 'permissions' => ['vulnerability-reports.index'],
+            ]);
+
+            DashboardMenu::registerItem([
+                'id' => 'cms-plugins-researchers',
+                'priority' => 2,
+                'parent_id' => 'cms-plugins-hall-of-fame',
+                'name' => 'plugins/hall-of-fame::researcher.name',
+                'icon' => 'fa fa-users',
+                'url' => 'researchers',
+                'permissions' => ['researchers.index'],
             ]);
         });
 

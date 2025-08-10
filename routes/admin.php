@@ -3,6 +3,7 @@
 use Botble\Base\Facades\BaseHelper;
 use Illuminate\Support\Facades\Route;
 use Whozidis\HallOfFame\Http\Controllers\VulnerabilityReportController;
+use Whozidis\HallOfFame\Http\Controllers\ResearcherController;
 
 Route::group([
     'namespace' => 'Whozidis\HallOfFame\Http\Controllers',
@@ -56,6 +57,44 @@ Route::group([
             'as' => 'reject',
             'uses' => 'VulnerabilityReportController@reject',
             'permission' => 'vulnerability-reports.reject',
+        ]);
+    });
+
+    Route::group(['prefix' => 'researchers', 'as' => 'researchers.'], function () {
+        Route::get('/', [
+            'as' => 'index',
+            'uses' => 'ResearcherController@index',
+            'permission' => 'researchers.index',
+        ]);
+
+        Route::get('/create', [
+            'as' => 'create',
+            'uses' => 'ResearcherController@create',
+            'permission' => 'researchers.create',
+        ]);
+
+        Route::post('/store', [
+            'as' => 'store',
+            'uses' => 'ResearcherController@store',
+            'permission' => 'researchers.create',
+        ]);
+
+        Route::get('/edit/{id}', [
+            'as' => 'edit',
+            'uses' => 'ResearcherController@edit',
+            'permission' => 'researchers.edit',
+        ]);
+
+        Route::put('/edit/{id}', [
+            'as' => 'update',
+            'uses' => 'ResearcherController@update',
+            'permission' => 'researchers.edit',
+        ]);
+
+        Route::delete('/{id}', [
+            'as' => 'destroy',
+            'uses' => 'ResearcherController@destroy',
+            'permission' => 'researchers.destroy',
         ]);
     });
 });

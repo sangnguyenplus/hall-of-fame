@@ -1,7 +1,10 @@
 <?php
 
 return [
-    'name' => 'Researcher',
+    'name' => 'Researchers',
+    'singular' => 'Researcher',
+    'create' => 'New Researcher',
+    'edit' => 'Edit Researcher',
     'register' => 'Register as Researcher',
     'register_title' => 'Researcher Registration',
     'login' => 'Login',
@@ -25,4 +28,23 @@ return [
     'login_success' => 'Login successful!',
     'login_failed' => 'Invalid email or password',
     'logout_success' => 'You have been logged out successfully.',
+
+    // Admin form
+    'form' => [
+        'name' => 'Name',
+        'name_placeholder' => 'Enter name',
+        'email' => 'Email',
+        'email_placeholder' => 'Enter email address',
+        'website' => 'Website',
+        'website_placeholder' => 'Enter website URL',
+        'twitter' => 'Twitter',
+        'twitter_placeholder' => 'Enter Twitter handle',
+        'github' => 'GitHub',
+        'github_placeholder' => 'Enter GitHub username',
+        'bio' => 'Bio',
+        'bio_placeholder' => 'Short biography',
+        'password' => 'Password',
+        'password_confirmation' => 'Password Confirmation',
+        'password_helper' => 'Leave blank to keep current password',
+    ],
 ];

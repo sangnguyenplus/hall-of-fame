@@ -10,7 +10,7 @@ class ResearcherForm extends FormAbstract
     public function buildForm(): void
     {
         $this
-            ->setupModel(new Researcher)
+            ->setupModel(new Researcher())
             ->withCustomFields()
             ->add('name', 'text', [
                 'label' => trans('plugins/hall-of-fame::researcher.form.name'),
@@ -59,6 +59,29 @@ class ResearcherForm extends FormAbstract
                     'rows' => 4,
                     'placeholder' => trans('plugins/hall-of-fame::researcher.form.bio_placeholder'),
                     'data-counter' => 400,
+                ],
+            ])
+            ->add('password', 'password', [
+                'label' => trans('plugins/hall-of-fame::researcher.form.password'),
+                'label_attr' => ['class' => 'control-label'],
+                'attr' => [
+                    'data-counter' => 60,
+                ],
+                'wrapper' => [
+                    'class' => $this->formHelper->getConfig('defaults.wrapper_class') . ($this->getModel()->id ? '' : ' required'),
+                ],
+                'help_block' => [
+                    'text' => trans('plugins/hall-of-fame::researcher.form.password_helper'),
+                ],
+            ])
+            ->add('password_confirmation', 'password', [
+                'label' => trans('plugins/hall-of-fame::researcher.form.password_confirmation'),
+                'label_attr' => ['class' => 'control-label'],
+                'attr' => [
+                    'data-counter' => 60,
+                ],
+                'wrapper' => [
+                    'class' => $this->formHelper->getConfig('defaults.wrapper_class') . ($this->getModel()->id ? '' : ' required'),
                 ],
             ]);
     }
