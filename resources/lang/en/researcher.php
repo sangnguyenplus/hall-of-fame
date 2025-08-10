@@ -1,0 +1,28 @@
+<?php
+
+return [
+    'name' => 'Researcher',
+    'register' => 'Register as Researcher',
+    'register_title' => 'Researcher Registration',
+    'login' => 'Login',
+    'login_title' => 'Researcher Login',
+    'logout' => 'Logout',
+    'name_required' => 'Name is required',
+    'email_required' => 'Email is required',
+    'email_invalid' => 'Please enter a valid email address',
+    'email_unique' => 'This email is already registered',
+    'password_required' => 'Password is required',
+    'password_min' => 'Password must be at least 8 characters',
+    'password_confirmation_match' => 'Password confirmation does not match',
+    'email_placeholder' => 'Enter your email',
+    'password_placeholder' => 'Enter your password',
+    'login_button' => 'Sign In',
+    'register_link' => 'Register Now',
+    'no_account' => 'Don\'t have an account?',
+    'login_required' => 'Please login to continue',
+    'invalid_researcher' => 'Invalid researcher account',
+    'register_success' => 'Registration successful! Please login to continue.',
+    'login_success' => 'Login successful!',
+    'login_failed' => 'Invalid email or password',
+    'logout_success' => 'You have been logged out successfully.',
+];

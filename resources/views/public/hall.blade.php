@@ -1,6 +1,6 @@
-@extends('plugins/hall-of-fame::layouts.master')
+@extends("plugins/hall-of-fame::layouts.app")
 
-@section('content')
+@section("hall-of-fame-content")
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-10">

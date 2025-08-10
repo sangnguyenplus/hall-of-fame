@@ -1,0 +1,75 @@
+<!-- Hall of Fame Header Navigation -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
+    <div class="container">
+        <a class="navbar-brand" href="{{ route('public.hall-of-fame') }}">
+            {{ trans('plugins/hall-of-fame::vulnerability-reports.hall_of_fame') }}
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#hallOfFameNavbar"
+            aria-controls="hallOfFameNavbar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="hallOfFameNavbar">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('public.hall-of-fame') }}">
+                        {{ trans('plugins/hall-of-fame::vulnerability-reports.hall_of_fame') }}
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('public.vulnerability-reports.index') }}">
+                        {{ trans('plugins/hall-of-fame::vulnerability-reports.name') }}
+                    </a>
+                </li>
+            </ul>
+            <ul class="navbar-nav">
+                @if (Auth::check())
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            {{ Auth::user()->name }}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                            <li>
+                                <a class="dropdown-item" href="{{ route('public.hall-of-fame.auth.dashboard') }}">
+                                    {{ trans('plugins/hall-of-fame::auth.dashboard') }}
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{{ route('public.vulnerability-reports.my-reports') }}">
+                                    {{ trans('plugins/hall-of-fame::vulnerability-reports.my_reports') }}
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{{ route('public.vulnerability-reports.create') }}">
+                                    {{ trans('plugins/hall-of-fame::vulnerability-reports.submit_a_vulnerability') }}
+                                </a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                <form action="{{ route('public.hall-of-fame.auth.logout') }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="dropdown-item">
+                                        {{ trans('plugins/hall-of-fame::auth.logout') }}
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
+                @else
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('public.hall-of-fame.auth.login') }}">
+                            {{ trans('plugins/hall-of-fame::auth.login') }}
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('public.hall-of-fame.auth.register') }}">
+                            {{ trans('plugins/hall-of-fame::auth.register') }}
+                        </a>
+                    </li>
+                @endif
+            </ul>
+        </div>
+    </div>
+</nav>

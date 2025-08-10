@@ -1,0 +1,175 @@
+/* Martfury Theme Specific Styles */
+
+/* Hall of Fame Section */
+.ps-hall-of-fame {
+    padding: 50px 0;
+}
+
+.ps-section__header {
+    margin-bottom: 50px;
+}
+
+.ps-section__header h2 {
+    font-size: 30px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.ps-desc {
+    font-size: 16px;
+    color: #666;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Report Cards */
+.ps-block--report {
+    background-color: #fff;
+    padding: 25px;
+    height: 100%;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s ease;
+}
+
+.ps-block--report:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+}
+
+.ps-block--report .ps-block__title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.ps-block--report .ps-block__title a {
+    color: #09c;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.ps-block--report .ps-block__title a:hover {
+    color: #007bff;
+}
+
+.ps-block--report .ps-block__meta {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.ps-block--report .ps-block__desc {
+    font-size: 15px;
+    color: #444;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.ps-block--report .ps-block__footer {
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+.ps-block--report .ps-block__date {
+    font-size: 13px;
+    color: #666;
+    margin: 0;
+}
+
+/* Login Form */
+.ps-my-account {
+    padding: 50px 0;
+}
+
+.ps-form--account {
+    max-width: 500px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 4px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.ps-form--account h4 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.ps-form--account .form-group {
+    margin-bottom: 25px;
+}
+
+.ps-form--account label {
+    font-weight: 500;
+    color: #333;
+}
+
+.ps-form--account .form-control {
+    height: 45px;
+    border-color: #ddd;
+    border-radius: 3px;
+    transition: border-color 0.3s ease;
+}
+
+.ps-form--account .form-control:focus {
+    border-color: #09c;
+    box-shadow: none;
+}
+
+.ps-form--account .invalid-feedback {
+    font-size: 13px;
+    color: #dc3545;
+    margin-top: 5px;
+}
+
+/* Buttons */
+.ps-btn {
+    display: inline-block;
+    padding: 12px 30px;
+    background-color: #09c;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 500;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.ps-btn:hover {
+    background-color: #007bff;
+}
+
+.ps-btn--fullwidth {
+    width: 100%;
+    text-align: center;
+}
+
+/* Pagination */
+.ps-pagination {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.ps-pagination .pagination {
+    justify-content: center;
+}
+
+/* Mobile Responsive */
+@media (max-width: 767px) {
+    .ps-form--account {
+        padding: 30px 20px;
+    }
+
+    .ps-section__header h2 {
+        font-size: 24px;
+    }
+
+    .ps-block--report {
+        margin-bottom: 20px;
+    }
+}

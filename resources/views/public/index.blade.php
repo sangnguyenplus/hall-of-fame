@@ -1,4 +1,4 @@
-@extends('plugins/hall-of-fame::layouts.master')
+@extends(Theme::getLayout())
 
 @section('content')
     <div class="container">
@@ -55,4 +55,4 @@
             </div>
         </div>
     </div>
-@stop
+@endsection
