@@ -4,8 +4,13 @@
     "namespace": "Whozidis\\HallOfFame\\",
     "provider": "Whozidis\\HallOfFame\\Providers\\HallOfFameServiceProvider",
     "author": "Who Zid IS",
-    "url": "https://whozidis.com",
+    "url": "https://github.com/WhoZidIS/hall-of-fame.git",
     "version": "1.0.0",
     "description": "Security Hall of Fame - Allow users to submit vulnerability reports securely",
-    "minimum_core_version": "7.3.0"
+    "minimum_core_version": "7.3.0",
+    "require": {
+        "base": "^1.0",
+        "dashboard": "^1.0",
+        "theme": "^1.0"
+    }
 }

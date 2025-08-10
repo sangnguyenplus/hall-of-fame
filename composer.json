@@ -1,0 +1,20 @@
+{
+    "name": "whozidis/hall-of-fame",
+    "description": "Hall of Fame plugin for Botble CMS",
+    "type": "package",
+    "require": {
+        "botble/platform": "^7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Whozidis\\HallOfFame\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Whozidis\\HallOfFame\\Providers\\HallOfFameServiceProvider"
+            ]
+        }
+    }
+}

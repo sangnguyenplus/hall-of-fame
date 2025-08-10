@@ -16,16 +16,34 @@ Route::group([
             'permission' => 'vulnerability-reports.index',
         ]);
 
+        Route::get('/create', [
+            'as' => 'create',
+            'uses' => 'VulnerabilityReportController@create',
+            'permission' => 'vulnerability-reports.create',
+        ]);
+
+        Route::post('/store', [
+            'as' => 'store',
+            'uses' => 'VulnerabilityReportController@store',
+            'permission' => 'vulnerability-reports.create',
+        ]);
+
         Route::get('/edit/{id}', [
             'as' => 'edit',
             'uses' => 'VulnerabilityReportController@edit',
             'permission' => 'vulnerability-reports.edit',
         ]);
 
-        Route::put('/update/{id}', [
+        Route::put('/edit/{id}', [
             'as' => 'update',
             'uses' => 'VulnerabilityReportController@update',
             'permission' => 'vulnerability-reports.edit',
+        ]);
+
+        Route::delete('/{id}', [
+            'as' => 'destroy',
+            'uses' => 'VulnerabilityReportController@destroy',
+            'permission' => 'vulnerability-reports.destroy',
         ]);
 
         Route::post('/approve/{id}', [

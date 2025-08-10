@@ -139,7 +139,7 @@ __webpack_require__.r(__webpack_exports__);
 /******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
 /******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
 /******/ 		var installedChunks = {
-/******/ 			"/js/hall-of-fame": 0,
+/******/ 			"/public/js/hall-of-fame": 0,
 /******/ 			"css/hall-of-fame": 0
 /******/ 		};
 /******/ 		
