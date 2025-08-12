@@ -29,6 +29,17 @@ return [
     'login_failed' => 'Invalid email or password',
     'logout_success' => 'You have been logged out successfully.',
 
+    // Form labels
+    'email' => 'Email Address',
+    'password' => 'Password',
+
+    // Status
+    'status' => [
+        'pending' => 'Pending',
+        'active' => 'Active',
+        'inactive' => 'Inactive',
+    ],
+
     // Admin form
     'form' => [
         'name' => 'Name',

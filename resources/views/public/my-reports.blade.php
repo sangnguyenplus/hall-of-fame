@@ -1,6 +1,8 @@
-@extends("plugins/hall-of-fame::layouts.app")
+@extends(Theme::getLayout())
 
-@section("hall-of-fame-content")
+@section('content')
+    @include('plugins/hall-of-fame::partials.hof-navigation')
+
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12">

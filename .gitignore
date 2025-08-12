@@ -18,6 +18,36 @@ public_html/hot
 storage/*.key
 .env
 Homestead.yaml
+
+# Security Sensitive Files
+*.eml
+*.key
+*.pem
+*.p12
+*.pfx
+*.crt
+*.cer
+
+# Logs and Debug Files
+*.log
+logs/
+debug.log
+
+# Database Files
+*.sqlite
+*.db
+*.sql
+
+# Personal/Test Data
+/public/test/
+/public/demo/
+/public/personal/
+/public/example/
+
+# Backup Files
+*.bak
+*.backup
+*.old
 Homestead.json
 /.vagrant
 .phpunit.result.cache

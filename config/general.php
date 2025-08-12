@@ -23,4 +23,13 @@ return [
         // Default sender email address
         'from_address' => 'no-reply@whozidis.com',
     ],
+
+    'pgp' => [
+        'enabled' => false,
+        'public_key' => null,
+        'private_key' => null,
+        'passphrase' => null,
+        'sign_pdf' => false,
+        'encrypt_pdf' => false,
+    ],
 ];

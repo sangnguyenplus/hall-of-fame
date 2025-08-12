@@ -13,7 +13,7 @@ class ResearcherMiddleware
         $researcherId = session('researcher_id');
 
         if (!$researcherId) {
-            return redirect()->route('researchers.login')
+            return redirect()->route('public.hall-of-fame.auth.login')
                 ->with('error', trans('plugins/hall-of-fame::researcher.login_required'));
         }
 
@@ -21,7 +21,7 @@ class ResearcherMiddleware
 
         if (!$researcher) {
             session()->forget('researcher_id');
-            return redirect()->route('researchers.login')
+            return redirect()->route('public.hall-of-fame.auth.login')
                 ->with('error', trans('plugins/hall-of-fame::researcher.invalid_researcher'));
         }
 

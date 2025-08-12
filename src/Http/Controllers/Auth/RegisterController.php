@@ -17,10 +17,14 @@ class RegisterController extends BaseController
 {
     public function showRegistrationForm()
     {
-        PageTitle::setTitle(trans('plugins/hall-of-fame::auth.register'));
-        SeoHelper::setTitle(trans('plugins/hall-of-fame::auth.register'));
+        // Set theme layout and breadcrumbs
+        \Botble\Theme\Facades\Theme::setLayout('hall-of-fame');
+        \Botble\Theme\Facades\Theme::breadcrumb()
+            ->add(__('Home'), route('public.index'))
+            ->add('Hall of Fame', route('public.hall-of-fame.index'))
+            ->add('Register', route('public.hall-of-fame.auth.register'));
 
-        return view('plugins/hall-of-fame::auth.register');
+        return \Botble\Theme\Facades\Theme::of('plugins/hall-of-fame::auth.register')->render();
     }
 
     public function register(Request $request, BaseHttpResponse $response)

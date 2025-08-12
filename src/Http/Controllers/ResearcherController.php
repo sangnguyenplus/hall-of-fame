@@ -17,6 +17,7 @@ use Botble\Base\Events\CreatedContentEvent;
 use Botble\Base\Events\DeletedContentEvent;
 use Botble\Base\Events\UpdatedContentEvent;
 use Botble\Base\Events\BeforeEditContentEvent;
+use Botble\Base\Facades\BaseHelper;
 use Botble\Base\Facades\PageTitle;
 use Exception;
 
@@ -56,8 +57,8 @@ class ResearcherController extends BaseController
         event(new CreatedContentEvent('RESEARCHER_MODULE_SCREEN_NAME', $request, $researcher));
 
         return $response
-            ->setPreviousUrl(route('researchers.index'))
-            ->setNextUrl(route('researchers.edit', $researcher->id))
+            ->setPreviousUrl(BaseHelper::getAdminPrefix() . '/researchers')
+            ->setNextUrl(BaseHelper::getAdminPrefix() . '/researchers/edit/' . $researcher->getKey())
             ->setMessage(trans('core/base::notices.create_success_message'));
     }
 
@@ -90,7 +91,7 @@ class ResearcherController extends BaseController
         event(new UpdatedContentEvent('RESEARCHER_MODULE_SCREEN_NAME', $request, $researcher));
 
         return $response
-            ->setPreviousUrl(route('researchers.index'))
+            ->setPreviousUrl(BaseHelper::getAdminPrefix() . '/researchers')
             ->setMessage(trans('core/base::notices.update_success_message'));
     }
 
@@ -112,9 +113,16 @@ class ResearcherController extends BaseController
     }
     public function showRegistrationForm(FormBuilder $formBuilder)
     {
+        // Set theme layout and breadcrumbs
+        \Botble\Theme\Facades\Theme::setLayout('hall-of-fame');
+        \Botble\Theme\Facades\Theme::breadcrumb()
+            ->add(__('Home'), route('public.index'))
+            ->add('Hall of Fame', route('public.hall-of-fame.index'))
+            ->add('Register', route('public.hall-of-fame.auth.register'));
+
         page_title()->setTitle(trans('plugins/hall-of-fame::researcher.register'));
 
-        return $formBuilder->create(ResearcherForm::class)->renderForm();
+        return \Botble\Theme\Facades\Theme::of('plugins/hall-of-fame::auth.register')->render();
     }
 
     public function register(ResearcherRequest $request, BaseHttpResponse $response)
@@ -142,7 +150,7 @@ class ResearcherController extends BaseController
             }
 
             return $response
-                ->setNextUrl(route('researchers.login'))
+                ->setNextUrl(route('public.hall-of-fame.auth.login'))
                 ->setMessage(trans('plugins/hall-of-fame::researcher.register_success'));
         } catch (Exception $exception) {
             Log::error('Researcher registration failed: ' . $exception->getMessage(), [
@@ -159,20 +167,16 @@ class ResearcherController extends BaseController
 
     public function showLoginForm()
     {
+        // Set the Hall of Fame theme layout
+        \Botble\Theme\Facades\Theme::setLayout('hall-of-fame');
+        
         page_title()->setTitle(trans('plugins/hall-of-fame::researcher.login_title'));
 
         \Botble\Theme\Facades\Theme::breadcrumb()
             ->add(__('Home'), route('public.index'))
-            ->add(trans('plugins/hall-of-fame::researcher.login_title'), route('researchers.login'));
+            ->add(trans('plugins/hall-of-fame::researcher.login_title'), route('public.hall-of-fame.auth.login'));
 
-        $currentTheme = \Botble\Theme\Facades\Theme::getThemeName() ?: 'default';
-        $viewPath = 'plugins/hall-of-fame::auth.login';
-
-        if (! \Botble\Theme\Facades\Theme::uses()) {
-            return view($viewPath);
-        }
-
-        return \Botble\Theme\Facades\Theme::scope($viewPath)->render();
+        return \Botble\Theme\Facades\Theme::of('plugins/hall-of-fame::auth.login')->render();
     }
 
     public function login(Request $request, BaseHttpResponse $response)
@@ -199,7 +203,21 @@ class ResearcherController extends BaseController
         $request->session()->forget('researcher_id');
 
         return $response
-            ->setNextUrl(route('public.hall-of-fame'))
-            ->setMessage(trans('plugins/hall-of-fame::researcher.logout_success'));
+            ->setMessage(trans('plugins/hall-of-fame::researcher.logout_success'))
+            ->setNextUrl(route('public.hall-of-fame.index'));
+    }
+
+    public function dashboard(Request $request)
+    {
+        // Set the Hall of Fame theme layout
+        \Botble\Theme\Facades\Theme::setLayout('hall-of-fame');
+        
+        page_title()->setTitle(trans('plugins/hall-of-fame::auth.dashboard'));
+
+        \Botble\Theme\Facades\Theme::breadcrumb()
+            ->add(__('Home'), route('public.index'))
+            ->add(trans('plugins/hall-of-fame::auth.dashboard'), '');
+
+        return \Botble\Theme\Facades\Theme::of('plugins/hall-of-fame::auth.dashboard')->render();
     }
 }

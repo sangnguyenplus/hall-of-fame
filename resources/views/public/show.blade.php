@@ -1,11 +1,13 @@
-@extends("plugins/hall-of-fame::layouts.app")
+@extends(Theme::getLayout())
 
-@section("hall-of-fame-content")
+@section('content')
+    @include('plugins/hall-of-fame::partials.hof-navigation')
+
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-10">
                 <div class="mb-4">
-                    <a href="{{ route('public.vulnerability-reports.index') }}" class="btn btn-secondary">
+                    <a href="{{ route('public.hall-of-fame.index') }}" class="btn btn-secondary">
                         <i class="fas fa-arrow-left"></i>
                         {{ trans('plugins/hall-of-fame::vulnerability-reports.back_to_hall_of_fame') }}
                     </a>

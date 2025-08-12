@@ -27,4 +27,11 @@ return [
     'login_success' => 'تم تسجيل الدخول بنجاح!',
     'login_failed' => 'البريد الإلكتروني أو كلمة المرور غير صحيحة',
     'logout_success' => 'تم تسجيل الخروج بنجاح.',
+
+    // Status
+    'status' => [
+        'pending' => 'في الانتظار',
+        'active' => 'نشط',
+        'inactive' => 'غير نشط',
+    ],
 ];

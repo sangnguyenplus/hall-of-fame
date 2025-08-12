@@ -1,0 +1,73 @@
+/* Hall of Fame Navigation Styles */
+.hof-navigation .btn.active {
+    background-color: var(--bs-primary);
+    border-color: var(--bs-primary);
+    color: white;
+}
+
+.hof-navigation .dropdown-item.active {
+    background-color: var(--bs-primary);
+    color: white;
+}
+
+.hof-navigation .nav-wrapper {
+    border: 1px solid #dee2e6;
+}
+
+@media (max-width: 768px) {
+    .hof-navigation .d-flex {
+        flex-direction: column;
+        align-items: stretch !important;
+    }
+
+    .hof-navigation .hof-nav-links,
+    .hof-navigation .hof-auth-section {
+        width: 100%;
+        justify-content: center;
+        margin-bottom: 1rem;
+    }
+
+    .hof-navigation .hof-auth-section {
+        margin-bottom: 0;
+    }
+}
+
+/* Timeline Styles for Analytics */
+.timeline {
+    position: relative;
+    padding-left: 30px;
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.timeline-marker {
+    position: absolute;
+    left: -35px;
+    top: 5px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.timeline-item:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    left: -31px;
+    top: 15px;
+    width: 2px;
+    height: calc(100% + 10px);
+    background-color: #dee2e6;
+}
+
+.timeline-title {
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.timeline-text {
+    margin-bottom: 5px;
+    color: #6c757d;
+}

@@ -12,9 +12,6 @@ class DashboardController extends BaseController
 {
     public function index(Request $request)
     {
-        PageTitle::setTitle(trans('plugins/hall-of-fame::auth.dashboard'));
-        SeoHelper::setTitle(trans('plugins/hall-of-fame::auth.dashboard'));
-
         $user = $request->user();
 
         $reports = VulnerabilityReport::where('user_id', $user->id)

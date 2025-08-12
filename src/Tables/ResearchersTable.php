@@ -2,6 +2,7 @@
 
 namespace Whozidis\HallOfFame\Tables;
 
+use Botble\Base\Facades\BaseHelper;
 use Botble\Base\Facades\Html;
 use Botble\Table\Abstracts\TableAbstract;
 use Botble\Table\Actions\DeleteAction;
@@ -24,9 +25,9 @@ class ResearchersTable extends TableAbstract
             ->model(Researcher::class)
             ->addActions([
                 EditAction::make()
-                    ->route('researchers.edit'),
+                    ->route(BaseHelper::getAdminPrefix() . '.researchers.edit'),
                 DeleteAction::make()
-                    ->route('researchers.destroy'),
+                    ->route(BaseHelper::getAdminPrefix() . '.researchers.destroy'),
             ]);
     }
 
@@ -35,7 +36,13 @@ class ResearchersTable extends TableAbstract
         $data = $this->table
             ->eloquent($this->query())
             ->editColumn('name', function (Researcher $item) {
-                return Html::link(route('researchers.edit', $item->id), $item->name);
+                if (is_in_admin(true)) {
+                    return Html::link(
+                        route(BaseHelper::getAdminPrefix() . '.researchers.edit', ['id' => $item->id]),
+                        $item->name
+                    );
+                }
+                return $item->name;
             })
             ->editColumn('email', function (Researcher $item) {
                 return $item->email;
@@ -87,7 +94,10 @@ class ResearchersTable extends TableAbstract
 
     public function buttons(): array
     {
-        return $this->addCreateButton(route('researchers.create'), 'researchers.create');
+        if (is_in_admin(true)) {
+            return $this->addCreateButton(route(BaseHelper::getAdminPrefix() . '.researchers.create'), 'researchers.create');
+        }
+        return [];
     }
 
     public function bulkActions(): array

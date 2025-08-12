@@ -14,9 +14,6 @@ class LoginController extends BaseController
 {
     public function showLoginForm()
     {
-        PageTitle::setTitle(trans('plugins/hall-of-fame::auth.login'));
-        SeoHelper::setTitle(trans('plugins/hall-of-fame::auth.login'));
-
         return view('plugins/hall-of-fame::auth.login');
     }
 
@@ -57,6 +54,6 @@ class LoginController extends BaseController
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('public.hall-of-fame');
+        return redirect()->route('public.hall-of-fame.index');
     }
 }
