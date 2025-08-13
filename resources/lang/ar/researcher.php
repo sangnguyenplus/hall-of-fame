@@ -28,10 +28,44 @@ return [
     'login_failed' => 'البريد الإلكتروني أو كلمة المرور غير صحيحة',
     'logout_success' => 'تم تسجيل الخروج بنجاح.',
 
+    'singular' => 'باحث',
+    'create' => 'باحث جديد',
+    'edit' => 'تعديل الباحث',
+
     // Status
     'status' => [
         'pending' => 'في الانتظار',
         'active' => 'نشط',
         'inactive' => 'غير نشط',
     ],
+
+    // Admin form
+    'form' => [
+        'name' => 'الاسم',
+        'name_placeholder' => 'أدخل الاسم',
+        'email' => 'البريد الإلكتروني',
+        'email_placeholder' => 'أدخل عنوان البريد الإلكتروني',
+        'website' => 'الموقع الإلكتروني',
+        'website_placeholder' => 'أدخل رابط الموقع',
+        'twitter' => 'تويتر',
+        'twitter_placeholder' => 'أدخل مُعرّف تويتر',
+        'github' => 'GitHub',
+        'github_placeholder' => 'أدخل اسم المستخدم في GitHub',
+        'bio' => 'السيرة الذاتية',
+        'bio_placeholder' => 'سيرة ذاتية مختصرة',
+        'password' => 'كلمة المرور',
+        'password_confirmation' => 'تأكيد كلمة المرور',
+        'password_helper' => 'اتركه فارغاً للاحتفاظ بكلمة المرور الحالية',
+    ],
+
+        // Additional controller messages
+    'required_fields_missing' => 'الحقول المطلوبة مفقودة',
+    'failed_to_save' => 'فشل في حفظ الباحث',
+    'registration_error' => 'حدث خطأ أثناء معالجة تسجيلك. يرجى المحاولة مرة أخرى.',
+    'register_success' => 'تم التسجيل بنجاح! يرجى تسجيل الدخول للمتابعة.',
+    'login_success' => 'تم تسجيل الدخول بنجاح! مرحباً بك في لوحة التحكم الخاصة بك.',
+    'login_failed' => 'البريد الإلكتروني أو كلمة المرور غير صحيحة. يرجى المحاولة مرة أخرى.',
+    'logout_success' => 'تم تسجيل الخروج بنجاح.',
+    'auth_required' => 'يرجى تسجيل الدخول للوصول إلى هذه الصفحة.',
+    'account_not_found' => 'لم يتم العثور على حسابك. يرجى تسجيل الدخول مرة أخرى.',
 ];

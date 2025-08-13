@@ -5,6 +5,7 @@ return [
     'name' => 'قاعة المشاهير',
     'description' => 'باحثو الأمان الذين ساعدوا في تحسين أمننا',
     'hall_of_fame_description' => 'شكراً لجميع باحثي الأمان الذين ساعدوا في الحفاظ على أمان منصتنا.',
+    'submit_vulnerability' => 'تقديم ثغرة أمنية',
 
     // الصفحات العامة
     'hall_of_fame' => 'قاعة المشاهير',
@@ -89,41 +90,50 @@ return [
         'signature_subtitle' => 'شهادة موقعة رقمياً',
         'verify_note' => 'تحقق في: :url | التوقيع الرقمي بـ PGP مُرفق',
     ],
-    'form_suggested_fix' => 'الإصلاح المقترح',
-    'form_suggested_fix_placeholder' => 'إن كان لديك اقتراح لكيفية إصلاح المشكلة',
-    'form_researcher_name' => 'اسم الباحث',
-    'form_researcher_name_placeholder' => 'اسمك الكامل',
-    'form_researcher_email' => 'البريد الإلكتروني للباحث',
-    'form_researcher_email_placeholder' => 'عنوان بريدك الإلكتروني',
-    'form_researcher_bio' => 'نبذة عن الباحث',
-    'form_researcher_bio_placeholder' => 'وصف موجز عن نفسك (اختياري)',
-    'form_attachments' => 'المرفقات',
-        'Login' => 'تسجيل الدخول',
-    'Register' => 'تسجيل جديد',
-    
-    // تلميح المرفقات
-    'form_attachments_hint' => 'قم بتحميل لقطات الشاشة أو مقاطع الفيديو أو ملفات أخرى تساعد في توضيح الثغرة (الحد الأقصى 10 ميجابايت لكل ملف)',
-    'anonymous' => 'مجهول',
-    'form_privacy_policy' => 'لقد قرأت سياسة الخصوصية وأوافق عليها',
-    'form_submit' => 'إرسال التقرير',
 
-    // مصطلحات الإدارة/النماذج
-    'vulnerability-reports' => [
-        'name' => 'تقارير الثغرات الأمنية',
-        'create' => 'إنشاء تقرير جديد',
-        'edit' => 'تعديل التقرير',
-        'form' => [
-            'title' => 'العنوان',
-            'vulnerability_type' => 'نوع الثغرة',
-            'endpoint' => 'نقطة النهاية المتأثرة',
-            'description' => 'الوصف',
-            'impact' => 'التأثير',
-            'steps_to_reproduce' => 'خطوات إعادة الإنتاج',
-            'suggested_fix' => 'الإصلاح المقترح',
-            'researcher_name' => 'اسم الباحث',
-            'researcher_email' => 'البريد الإلكتروني للباحث',
-            'researcher_bio' => 'نبذة عن الباحث',
-            'status' => 'الحالة',
-        ],
-    ],
+    // Status options
+    'status_reported' => 'تم الإبلاغ',
+    'status_validated' => 'تم التحقق',
+    'status_in_progress' => 'قيد الإصلاح',
+    'status_fixed' => 'تم الإصلاح',
+    'status_published' => 'منشور',
+
+    // Admin table columns
+    'column_name' => 'الاسم',
+    'column_email' => 'البريد الإلكتروني',
+    'column_reports' => 'التقارير',
+    'column_created_at' => 'تاريخ الإنشاء',
+    'column_updated_at' => 'تاريخ التحديث',
+
+    // Permissions
+    'permission_vulnerability_reports' => 'تقارير الثغرات الأمنية',
+    'permission_create' => 'إنشاء',
+    'permission_edit' => 'تعديل',
+    'permission_delete' => 'حذف',
+
+    // Messages
+    'message_create_success' => 'تم الإنشاء بنجاح',
+    'message_update_success' => 'تم التحديث بنجاح',
+    'message_delete_success' => 'تم الحذف بنجاح',
+    'message_error' => 'خطأ',
+    'approve_success' => 'تم قبول التقرير ونشره بنجاح',
+    'reject_success' => 'تم رفض التقرير',
+
+    // Researchers section
+    'researchers_name' => 'الباحثون',
+    'researchers_create' => 'إنشاء باحث جديد',
+    'researchers_edit' => 'تعديل الباحث',
+
+    // Vulnerability Reports section
+    'vulnerability_reports_name' => 'تقارير الثغرات الأمنية',
+    'vulnerability_reports_create' => 'إنشاء تقرير جديد',
+    'vulnerability_reports_edit' => 'تعديل التقرير',
+    'my_reports' => 'تقاريري',
+
+    // Form fields
+    'form_status' => 'الحالة',
+    'form_status_info' => 'معلومات الحالة',
+    'form_is_published' => 'منشور',
+    'form_admin_note' => 'ملاحظة المشرف',
+    'form_admin_note_placeholder' => 'ملاحظة خاصة للمشرفين فقط',
 ];

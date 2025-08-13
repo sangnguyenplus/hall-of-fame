@@ -14,9 +14,13 @@ class DashboardController extends BaseController
     {
         $user = $request->user();
 
-        $reports = VulnerabilityReport::where('user_id', $user->id)
-            ->latest()
-            ->paginate(10);
+        // Get reports created by this admin user OR reports where researcher_email matches
+        $reports = VulnerabilityReport::where(function($query) use ($user) {
+            $query->where('user_id', $user->id)
+                  ->orWhere('researcher_email', $user->email);
+        })
+        ->latest()
+        ->paginate(10);
 
         return view('plugins/hall-of-fame::auth.dashboard', compact('reports'));
     }

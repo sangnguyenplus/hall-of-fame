@@ -1,4 +1,4 @@
-# WhoZidIS Hall of Fame Plugin
+# Who Zid IS Hall of Fame Plugin
 
 [![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/WhoZidIS/hall-of-fame)
 [![License](https://img.shields.io/badge/license-Commercial-red.svg)](#-license)
@@ -66,7 +66,7 @@ cp -r hall-of-fame /path/to/your/botble/platform/plugins/
 
 # Or clone from repository (if you have access)
 cd /path/to/your/botble/platform/plugins/
-git clone https://github.com/WhoZidIS/hall-of-fame.git
+git clone https://github.com/Who Zid IS/hall-of-fame.git
 ```
 
 ### Step 2: Database Setup
@@ -373,11 +373,13 @@ For enterprise customers:
 
 ### Commercial License
 
-**WhoZidIS Hall of Fame Plugin** is commercial software. Usage requires a valid license.
+**Who Zid IS Hall of Fame Plugin** is commercial software. Usage requires a
+valid license.
 
 #### License Terms
 
-- ✅ **Commercial Use**: Authorized for business/commercial projects
+- ✅ **Commercial Use**: Authorized for business and commercial projects
+  with valid license
 - ✅ **Modification**: Source code may be modified for licensed use
 - ✅ **Distribution**: May be distributed with your applications
 - ❌ **Resale**: Cannot be resold as standalone product
@@ -406,9 +408,9 @@ This plugin includes third-party packages under their respective licenses:
 - **GuzzleHTTP**: MIT License
 - **Bootstrap**: MIT License (CDN usage)
 
-## 🏢 About WhoZidIS
+## 🏢 About Who Zid IS
 
-WhoZidIS is a cybersecurity company specializing in vulnerability research and
+Who Zid IS is a cybersecurity company specializing in vulnerability research and
 security solutions. We develop professional tools for security researchers,
 bug bounty platforms, and enterprise security teams.
 
@@ -445,7 +447,7 @@ bug bounty platforms, and enterprise security teams.
 
 ---
 
-**© 2025 WhoZidIS. All rights reserved.**
+**© 2025 Who Zid IS. All rights reserved.**
 
 *This plugin is designed for professional security teams and organizations
 serious about vulnerability management. Contact us for enterprise licensing

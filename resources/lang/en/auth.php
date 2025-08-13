@@ -19,6 +19,7 @@ return [
     'register_success' => 'Registration successful!',
     'failed' => 'These credentials do not match our records.',
     'welcome' => 'Welcome',
+    'welcome_message' => 'Welcome to your security research dashboard.',
     'total_submissions' => 'Total Submissions',
     'approved_submissions' => 'Approved Submissions',
     'pending_submissions' => 'Pending Submissions',

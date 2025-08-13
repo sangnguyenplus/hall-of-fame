@@ -24,6 +24,23 @@ return [
         'from_address' => 'no-reply@whozidis.com',
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Vulnerability Report Submission Settings
+    |--------------------------------------------------------------------------
+    |
+    | Configure how vulnerability reports can be submitted.
+    |
+    */
+
+    'submissions' => [
+        // Allow anonymous vulnerability report submissions without authentication
+        'allow_anonymous' => true,
+        
+        // Require email verification for anonymous submissions
+        'require_email_verification' => false,
+    ],
+
     'pgp' => [
         'enabled' => false,
         'public_key' => null,

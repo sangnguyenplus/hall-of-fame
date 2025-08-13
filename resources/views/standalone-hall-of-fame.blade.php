@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Hall of Fame</title>
+    <title>{{ trans('plugins/hall-of-fame::hall-of-fame.hall_of_fame') }}</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -41,9 +41,10 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>Hall of Fame</h1>
+            <h1>{{ trans('plugins/hall-of-fame::hall-of-fame.hall_of_fame') }}</h1>
             <p class="lead">{{ trans('plugins/hall-of-fame::hall-of-fame.hall_of_fame_description') }}</p>
-            <a href="/" class="btn btn-primary mb-4">Back to Home</a>
+            <a href="/"
+                class="btn btn-primary mb-4">{{ trans('plugins/hall-of-fame::hall-of-fame.back_to_home') }}</a>
         </div>
 
         <div class="row">
@@ -54,7 +55,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">{{ $report->title }}</h5>
                                 <p class="card-text">
-                                    <strong>Researcher:</strong>
+                                    <strong>{{ trans('plugins/hall-of-fame::hall-of-fame.researcher') }}:</strong>
                                     {{ $report->researcher_name ?? ($report->researcher->name ?? trans('plugins/hall-of-fame::hall-of-fame.anonymous')) }}
                                 </p>
                                 <p class="card-text">

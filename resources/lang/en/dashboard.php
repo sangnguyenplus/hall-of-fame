@@ -82,4 +82,27 @@ return [
     'monthly_activity' => 'Monthly Activity',
     'no_activity_data' => 'No Activity Data',
     'submit_vulnerability_reports_to_see_analytics' => 'Submit some vulnerability reports to see analytics here.',
+    
+    // Additional translations for certificates page
+    'manage_certificates_description' => 'Manage and view your earned certificates',
+    'back_to_dashboard' => 'Back to Dashboard',
+    'not_available' => 'N/A',
+    'status_signed' => 'Signed',
+    'status_pending' => 'Pending',
+    'status_encrypted' => 'Encrypted',
+    'status_standard' => 'Standard',
+    'status_verified' => 'Verified',
+    'no_certificates_description' => 'Submit vulnerability reports to earn your first certificate!',
+    'share_certificate' => 'Share Certificate',
+    'share_certificate_description' => 'Share this certificate with others:',
+    'certificate_url' => 'Certificate URL',
+    'share_twitter' => 'Twitter',
+    'share_linkedin' => 'LinkedIn', 
+    'share_facebook' => 'Facebook',
+    'share_text_prefix' => 'I\'ve earned a security certificate for discovering',
+    
+    // Analytics fallback values
+    'activity' => 'Activity',
+    'no_description' => 'No description',
+    'unknown_date' => 'Unknown date',
 ];

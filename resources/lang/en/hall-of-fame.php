@@ -87,6 +87,7 @@ return [
     'view_hall_of_fame' => 'View Hall of Fame',
     'view_details' => 'View Details',
     'back_to_hall_of_fame' => 'Back to Hall of Fame',
+    'back_to_home' => 'Back to Home',
     'reported_on' => 'Reported on',
     'no_reports_found' => 'No vulnerability reports found.',
     'no_reports_found_for_year' => 'No vulnerability reports found for :year.',

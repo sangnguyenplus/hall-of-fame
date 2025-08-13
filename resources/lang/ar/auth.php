@@ -19,6 +19,7 @@ return [
     'register_success' => 'تم إنشاء الحساب بنجاح!',
     'failed' => 'بيانات الاعتماد هذه لا تتطابق مع سجلاتنا.',
     'welcome' => 'مرحباً',
+    'welcome_message' => 'مرحباً بك في لوحة تحكم أبحاث الأمان الخاصة بك.',
     'total_submissions' => 'إجمالي التقارير المقدمة',
     'approved_submissions' => 'التقارير المعتمدة',
     'pending_submissions' => 'التقارير قيد الانتظار',

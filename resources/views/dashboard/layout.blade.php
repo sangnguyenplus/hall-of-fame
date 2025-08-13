@@ -107,7 +107,7 @@
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                             data-bs-toggle="dropdown">
                             <i class="fas fa-user-circle me-1"></i>
-                            {{ Auth::user()->name }}
+                            {{ isset($researcher) ? $researcher->name : 'Researcher' }}
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li>

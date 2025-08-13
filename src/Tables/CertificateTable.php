@@ -41,19 +41,19 @@ class CertificateTable extends TableAbstract
             })
             ->editColumn('vulnerability_report_id', function (Certificate $item) {
                 if ($item->vulnerabilityReport) {
-                    return Html::link(
-                        route('hall-of-fame.vulnerability-reports.edit', $item->vulnerability_report_id),
-                        $item->vulnerabilityReport->title ?: 'Report #' . $item->vulnerability_report_id,
-                        ['target' => '_blank']
-                    );
+                    return Html::tag('span', $item->vulnerabilityReport->title ?: 'Report #' . $item->vulnerability_report_id);
                 }
-                return __('N/A');
+                return trans('plugins/hall-of-fame::certificates.admin.n_a');
             })
-            ->editColumn('user_id', function (Certificate $item) {
-                if ($item->user) {
-                    return $item->user->name;
+            ->editColumn('researcher_name', function (Certificate $item) {
+                // Show researcher name from certificate or from linked report
+                if ($item->researcher_name) {
+                    return $item->researcher_name;
                 }
-                return __('N/A');
+                if ($item->vulnerabilityReport && $item->vulnerabilityReport->researcher_name) {
+                    return $item->vulnerabilityReport->researcher_name;
+                }
+                return trans('plugins/hall-of-fame::certificates.admin.n_a');
             })
             ->editColumn('has_pdf', function (Certificate $item) {
                 if ($item->hasPdf()) {
@@ -92,12 +92,13 @@ class CertificateTable extends TableAbstract
                 'id',
                 'certificate_id',
                 'vulnerability_report_id',
-                'user_id',
+                'researcher_name',
+                'researcher_email',
                 'issued_at',
                 'status',
                 'created_at',
             ])
-            ->with(['vulnerabilityReport', 'user']);
+            ->with(['vulnerabilityReport']);
 
         return $this->applyScopes($query);
     }
@@ -107,25 +108,25 @@ class CertificateTable extends TableAbstract
         return [
             IdColumn::make(),
             Column::make('certificate_id')
-                ->title(__('Certificate ID'))
+                ->title(trans('plugins/hall-of-fame::certificates.admin.certificate_id'))
                 ->searchable(false)
                 ->sortable(),
             Column::make('vulnerability_report_id')
-                ->title(__('Report'))
+                ->title(trans('plugins/hall-of-fame::certificates.admin.vulnerability_report'))
                 ->searchable(false)
                 ->sortable(),
-            Column::make('user_id')
-                ->title(__('User'))
+            Column::make('researcher_name')
+                ->title(trans('plugins/hall-of-fame::certificates.admin.researcher'))
                 ->searchable(false)
                 ->sortable(),
             DateTimeColumn::make('issued_at')
-                ->title(__('Issued At')),
+                ->title(trans('plugins/hall-of-fame::certificates.admin.issued_at')),
             Column::make('has_pdf')
-                ->title(__('PDF'))
+                ->title(trans('plugins/hall-of-fame::certificates.admin.pdf'))
                 ->searchable(false)
                 ->sortable(false),
             Column::make('has_signed_pdf')
-                ->title(__('Signed'))
+                ->title(trans('plugins/hall-of-fame::certificates.admin.signed'))
                 ->searchable(false)
                 ->sortable(false),
             StatusColumn::make(),

@@ -33,6 +33,7 @@
  */
 
 use Botble\Base\Facades\BaseHelper;
+use Botble\Theme\Facades\Theme;
 use Illuminate\Support\Facades\Route;
 use Whozidis\HallOfFame\Http\Controllers\PublicVulnerabilityReportController;
 use Whozidis\HallOfFame\Http\Controllers\CertificateController;
@@ -44,86 +45,80 @@ $webCoreMiddleware = ['web', 'core'];
 $signedUrlMiddleware = 'signed';
 $authMiddleware = ['auth']; // Laravel's built-in authentication middleware
 
-// Define the Hall of Fame main route directly
-Route::middleware($webCoreMiddleware)
-    ->group(function () {
-        Route::get('hall-of-fame', [PublicVulnerabilityReportController::class, 'index'])
-            ->name('public.hall-of-fame.index');
-    });
+// Register public routes through Theme system for language support
+Theme::registerRoutes(function () use ($signedUrlMiddleware, $authMiddleware) {
+    // Main Hall of Fame routes
+    Route::get('hall-of-fame', [PublicVulnerabilityReportController::class, 'index'])
+        ->name('public.hall-of-fame.index');
 
-// Other routes
-Route::group([
-    'namespace' => 'Whozidis\HallOfFame\Http\Controllers',
-    'middleware' => $webCoreMiddleware,
-], function () use ($signedUrlMiddleware, $authMiddleware) {
     Route::prefix('hall-of-fame')->group(function () use ($signedUrlMiddleware, $authMiddleware) {
 
         Route::prefix('auth')->as('public.hall-of-fame.auth.')->group(function () use ($signedUrlMiddleware) {
             Route::get('/register', [
-                'uses' => 'ResearcherController@showRegistrationForm',
+                'uses' => 'Whozidis\HallOfFame\Http\Controllers\ResearcherController@showRegistrationForm',
                 'as' => 'register',
             ]);
 
             Route::post('/register', [
-                'uses' => 'ResearcherController@register',
+                'uses' => 'Whozidis\HallOfFame\Http\Controllers\ResearcherController@register',
                 'as' => 'register.post',
             ]);
 
             Route::get('/login', [
-                'uses' => 'ResearcherController@showLoginForm',
+                'uses' => 'Whozidis\HallOfFame\Http\Controllers\ResearcherController@showLoginForm',
                 'as' => 'login',
             ]);
 
             Route::post('/login', [
-                'uses' => 'ResearcherController@login',
+                'uses' => 'Whozidis\HallOfFame\Http\Controllers\ResearcherController@login',
                 'as' => 'login.post',
             ]);
 
             Route::post('/logout', [
-                'uses' => 'ResearcherController@logout',
+                'uses' => 'Whozidis\HallOfFame\Http\Controllers\ResearcherController@logout',
                 'as' => 'logout',
             ]);
 
             Route::get('/dashboard', [
-                'uses' => 'ResearcherController@dashboard',
+                'uses' => 'Whozidis\HallOfFame\Http\Controllers\ResearcherController@dashboard',
                 'as' => 'dashboard',
-            ])->middleware($signedUrlMiddleware); // Using variable to suppress IDE warnings
+            ])->middleware(\Whozidis\HallOfFame\Http\Middleware\HallOfFameAuth::class);
         });
 
         // Enhanced Dashboard Routes
-        Route::prefix('dashboard')->as('public.hall-of-fame.dashboard.')->middleware($authMiddleware)->group(function () {
+        Route::prefix('dashboard')->as('public.hall-of-fame.dashboard.')->middleware(\Whozidis\HallOfFame\Http\Middleware\HallOfFameAuth::class)->group(function () {
             Route::get('/', [
-                'uses' => 'DashboardController@index',
+                'uses' => 'Whozidis\HallOfFame\Http\Controllers\DashboardController@index',
                 'as' => 'index',
             ]);
 
             Route::get('/profile', [
-                'uses' => 'DashboardController@profile', 
+                'uses' => 'Whozidis\HallOfFame\Http\Controllers\DashboardController@profile', 
                 'as' => 'profile',
             ]);
 
             Route::post('/profile', [
-                'uses' => 'DashboardController@updateProfile',
+                'uses' => 'Whozidis\HallOfFame\Http\Controllers\DashboardController@updateProfile',
                 'as' => 'profile.update',
             ]);
 
             Route::get('/certificates', [
-                'uses' => 'DashboardController@certificates',
+                'uses' => 'Whozidis\HallOfFame\Http\Controllers\DashboardController@certificates',
                 'as' => 'certificates',
             ]);
 
             Route::get('/reports', [
-                'uses' => 'DashboardController@reports',
+                'uses' => 'Whozidis\HallOfFame\Http\Controllers\DashboardController@reports',
                 'as' => 'reports', 
             ]);
 
             Route::get('/reports/{id}', [
-                'uses' => 'DashboardController@reportDetail',
+                'uses' => 'Whozidis\HallOfFame\Http\Controllers\DashboardController@reportDetail',
                 'as' => 'reports.detail',
             ])->where('id', '[0-9]+');
 
             Route::get('/analytics', [
-                'uses' => 'DashboardController@analytics',
+                'uses' => 'Whozidis\HallOfFame\Http\Controllers\DashboardController@analytics',
                 'as' => 'analytics',
             ]);
         });
@@ -131,24 +126,24 @@ Route::group([
         
         Route::prefix('reports')->as('public.vulnerability-reports.')->group(function () use ($signedUrlMiddleware) {
             Route::get('/{id}', [
-                'uses' => 'PublicVulnerabilityReportController@show',
+                'uses' => 'Whozidis\HallOfFame\Http\Controllers\PublicVulnerabilityReportController@show',
                 'as' => 'show',
             ])->where('id', '[0-9]+');            
             
             // Protected routes that require researcher session
             Route::group(['middleware' => ['web', 'core']], function () use ($signedUrlMiddleware) {
                 Route::get('/submit', [
-                    'uses' => 'PublicVulnerabilityReportController@create',
+                    'uses' => 'Whozidis\HallOfFame\Http\Controllers\PublicVulnerabilityReportController@create',
                     'as' => 'create',
                 ]); // Removed the signed middleware to fix the 403 error
 
                 Route::post('/submit', [
-                    'uses' => 'PublicVulnerabilityReportController@store',
+                    'uses' => 'Whozidis\HallOfFame\Http\Controllers\PublicVulnerabilityReportController@store',
                     'as' => 'store',
                 ]);
 
                 Route::get('/my-reports', [
-                    'uses' => 'PublicVulnerabilityReportController@myReports',
+                    'uses' => 'Whozidis\HallOfFame\Http\Controllers\PublicVulnerabilityReportController@myReports',
                     'as' => 'my-reports',
                 ])->middleware($signedUrlMiddleware); // Using variable to suppress IDE warnings
             });
@@ -170,4 +165,12 @@ Route::group([
                 ->name('verify-api');
         });
     });
+});
+
+// Admin routes (not language-dependent)
+Route::group([
+    'namespace' => 'Whozidis\HallOfFame\Http\Controllers',
+    'middleware' => $webCoreMiddleware,
+], function () {
+    // Keep any admin routes here if needed
 });

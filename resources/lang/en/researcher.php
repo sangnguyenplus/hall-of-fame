@@ -58,4 +58,15 @@ return [
         'password_confirmation' => 'Password Confirmation',
         'password_helper' => 'Leave blank to keep current password',
     ],
+
+    // Additional controller messages
+    'required_fields_missing' => 'Required fields are missing',
+    'failed_to_save' => 'Failed to save researcher',
+    'registration_error' => 'An error occurred while processing your registration. Please try again.',
+    'register_success' => 'Registration successful! Please login to continue.',
+    'login_success' => 'Login successful! Welcome to your dashboard.',
+    'login_failed' => 'Invalid email or password. Please try again.',
+    'logout_success' => 'Logged out successfully.',
+    'auth_required' => 'Please login to access this page.',
+    'account_not_found' => 'Your account was not found. Please login again.',
 ];

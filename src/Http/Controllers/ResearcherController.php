@@ -3,6 +3,7 @@
 namespace Whozidis\HallOfFame\Http\Controllers;
 
 use Whozidis\HallOfFame\Models\Researcher;
+use Whozidis\HallOfFame\Models\VulnerabilityReport;
 use Whozidis\HallOfFame\Forms\ResearcherForm;
 use Whozidis\HallOfFame\Http\Requests\ResearcherRequest;
 use Whozidis\HallOfFame\Tables\ResearchersTable;
@@ -117,8 +118,8 @@ class ResearcherController extends BaseController
         \Botble\Theme\Facades\Theme::setLayout('hall-of-fame');
         \Botble\Theme\Facades\Theme::breadcrumb()
             ->add(__('Home'), route('public.index'))
-            ->add('Hall of Fame', route('public.hall-of-fame.index'))
-            ->add('Register', route('public.hall-of-fame.auth.register'));
+            ->add(trans('plugins/hall-of-fame::vulnerability-reports.hall_of_fame'), route('public.hall-of-fame.index'))
+            ->add(trans('plugins/hall-of-fame::researcher.register'), route('public.hall-of-fame.auth.register'));
 
         page_title()->setTitle(trans('plugins/hall-of-fame::researcher.register'));
 
@@ -134,7 +135,7 @@ class ResearcherController extends BaseController
                 return $response
                     ->setError()
                     ->setCode(422)
-                    ->setMessage('Required fields are missing');
+                    ->setMessage(trans('plugins/hall-of-fame::researcher.required_fields_missing'));
             }
 
             $password = $data['password'];
@@ -146,7 +147,7 @@ class ResearcherController extends BaseController
             $researcher->password = Hash::make($password);
 
             if (!$researcher->save()) {
-                throw new Exception('Failed to save researcher');
+                throw new Exception(trans('plugins/hall-of-fame::researcher.failed_to_save'));
             }
 
             return $response
@@ -161,7 +162,7 @@ class ResearcherController extends BaseController
             return $response
                 ->setError()
                 ->setCode(500)
-                ->setMessage('An error occurred while processing your registration. Please try again.');
+                ->setMessage(trans('plugins/hall-of-fame::researcher.registration_error'));
         }
     }
 
@@ -190,17 +191,20 @@ class ResearcherController extends BaseController
                 ->setMessage(trans('plugins/hall-of-fame::researcher.login_failed'));
         }
 
-        // Generate a signed URL for the my-reports page
-        $url = URL::signedRoute('public.vulnerability-reports.my-reports', ['researcher' => $researcher->id]);
+        // Store researcher in session for Hall of Fame authentication
+        session(['hof_researcher' => $researcher->id]);
+        session(['hof_researcher_data' => $researcher->toArray()]);
 
         return $response
-            ->setNextUrl($url)
+            ->setNextUrl(route('public.hall-of-fame.dashboard.index'))
             ->setMessage(trans('plugins/hall-of-fame::researcher.login_success'));
     }
 
     public function logout(Request $request, BaseHttpResponse $response)
     {
-        $request->session()->forget('researcher_id');
+        // Clear Hall of Fame researcher session
+        $request->session()->forget('hof_researcher');
+        $request->session()->forget('hof_researcher_data');
 
         return $response
             ->setMessage(trans('plugins/hall-of-fame::researcher.logout_success'))
@@ -209,6 +213,11 @@ class ResearcherController extends BaseController
 
     public function dashboard(Request $request)
     {
+        $researcher = $request->hof_researcher;
+        
+        // Get researcher's reports for the dashboard stats
+        $reports = VulnerabilityReport::where('researcher_email', $researcher->email)->get();
+        
         // Set the Hall of Fame theme layout
         \Botble\Theme\Facades\Theme::setLayout('hall-of-fame');
         
@@ -218,6 +227,6 @@ class ResearcherController extends BaseController
             ->add(__('Home'), route('public.index'))
             ->add(trans('plugins/hall-of-fame::auth.dashboard'), '');
 
-        return \Botble\Theme\Facades\Theme::of('plugins/hall-of-fame::auth.dashboard')->render();
+        return \Botble\Theme\Facades\Theme::of('plugins/hall-of-fame::auth.dashboard', compact('researcher', 'reports'))->render();
     }
 }

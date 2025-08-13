@@ -50,6 +50,12 @@ class HallOfFameServiceProvider extends ServiceProvider
         if (file_exists($stubs)) {
             require_once $stubs;
         }
+        
+        // Load Hall of Fame helper functions
+        $helpers = __DIR__ . '/../Support/helpers.php';
+        if (file_exists($helpers)) {
+            require_once $helpers;
+        }
         // Exit early if plugin is not active
         if (!$this->isPluginActive('hall-of-fame')) {
             return;
@@ -147,8 +153,7 @@ class HallOfFameServiceProvider extends ServiceProvider
             
             // Use Assets facade for script/style registration (preferred method)
             Assets::addStylesDirectly([
-                'vendor/core/plugins/hall-of-fame/css/hall-of-fame.css',
-                'vendor/core/plugins/hall-of-fame/css/hall-of-fame-navigation.css'
+                'vendor/core/plugins/hall-of-fame/css/hall-of-fame.css'
             ])->addScriptsDirectly('vendor/core/plugins/hall-of-fame/js/hall-of-fame.js');
         });
     }

@@ -1,19 +1,19 @@
-@include('plugins/hall-of-fame::partials.hof-navigation')
+@include('plugins/hall-of-fame::partials.hof-master')
 
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
-            <div class="card">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <h3 class="card-title mb-0">My Vulnerability Reports</h3>
-                    <a href="{{ route('public.vulnerability-reports.create') }}" class="btn btn-primary">
+            <div class="hof-card">
+                <div class="hof-card-header">
+                    <h3 class="hof-card-title mb-0">My Vulnerability Reports</h3>
+                    <a href="{{ route('public.vulnerability-reports.create') }}" class="hof-btn hof-btn-primary">
                         <i class="fas fa-plus"></i> Submit New Report
                     </a>
                 </div>
-                <div class="card-body">
+                <div class="hof-card-content">
                     @if ($reports->count() > 0)
-                        <div class="table-responsive">
-                            <table class="table table-striped">
+                        <div class="hof-table-container">
+                            <table class="hof-table">
                                 <thead>
                                     <tr>
                                         <th>ID</th>

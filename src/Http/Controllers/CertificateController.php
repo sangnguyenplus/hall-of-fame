@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
+use Botble\Theme\Facades\Theme;
+use Botble\Base\Facades\PageTitle;
+use Botble\SeoHelper\Facades\SeoHelper;
 use Whozidis\HallOfFame\Models\Certificate;
 use Whozidis\HallOfFame\Models\VulnerabilityReport;
 use Whozidis\HallOfFame\Services\CertificateService;
@@ -43,18 +46,18 @@ class CertificateController extends BaseController
             if ($report->certificate) {
                 return $response
                     ->setError()
-                    ->setMessage('Certificate already exists for this report');
+                    ->setMessage(trans('plugins/hall-of-fame::certificates.certificate_already_exists'));
             }
 
             $certificate = $this->certificateService->generateCertificate($report);
 
             return $response
                 ->setData(['certificate_id' => $certificate->certificate_id])
-                ->setMessage('Certificate generated successfully');
+                ->setMessage(trans('plugins/hall-of-fame::certificates.certificate_generated_successfully'));
         } catch (\Exception $e) {
             return $response
                 ->setError()
-                ->setMessage('Failed to generate certificate: ' . $e->getMessage());
+                ->setMessage(trans('plugins/hall-of-fame::certificates.failed_to_generate') . ': ' . $e->getMessage());
         }
     }
 
@@ -64,11 +67,11 @@ class CertificateController extends BaseController
             $generated = $this->certificateService->bulkGenerateCertificates();
 
             return $response
-                ->setMessage("Successfully generated {$generated} certificates");
+                ->setMessage(trans('plugins/hall-of-fame::certificates.bulk_generated_successfully', ['count' => $generated]));
         } catch (\Exception $e) {
             return $response
                 ->setError()
-                ->setMessage('Bulk generation failed: ' . $e->getMessage());
+                ->setMessage(trans('plugins/hall-of-fame::certificates.bulk_generation_failed') . ': ' . $e->getMessage());
         }
     }
 
@@ -94,11 +97,11 @@ class CertificateController extends BaseController
             }
 
             return $response
-                ->setMessage('Certificate regenerated successfully');
+                ->setMessage(trans('plugins/hall-of-fame::certificates.certificate_regenerated_successfully'));
         } catch (\Exception $e) {
             return $response
                 ->setError()
-                ->setMessage('Failed to regenerate certificate: ' . $e->getMessage());
+                ->setMessage(trans('plugins/hall-of-fame::certificates.failed_to_regenerate') . ': ' . $e->getMessage());
         }
     }
 
@@ -108,8 +111,23 @@ class CertificateController extends BaseController
         
         $pdfPath = $certificate->hasSignedPdf() ? $certificate->signed_pdf_path : $certificate->pdf_path;
         
+        // If PDF doesn't exist, try to regenerate it
         if (!$pdfPath || !File::exists(public_path($pdfPath))) {
-            abort(404, 'Certificate file not found');
+            try {
+                Log::info("Certificate PDF missing for {$certificateId}, attempting to regenerate");
+                $this->certificateService->generatePdf($certificate);
+                
+                // Refresh the certificate to get updated paths
+                $certificate->refresh();
+                $pdfPath = $certificate->hasSignedPdf() ? $certificate->signed_pdf_path : $certificate->pdf_path;
+                
+                if (!$pdfPath || !File::exists(public_path($pdfPath))) {
+                    throw new \Exception('PDF regeneration failed');
+                }
+            } catch (\Exception $e) {
+                Log::error("Failed to regenerate certificate PDF for {$certificateId}: " . $e->getMessage());
+                abort(404, trans('plugins/hall-of-fame::certificates.certificate_file_not_found'));
+            }
         }
 
         $filename = "certificate_{$certificate->certificate_id}" . 
@@ -124,8 +142,23 @@ class CertificateController extends BaseController
         
         $pdfPath = $certificate->hasSignedPdf() ? $certificate->signed_pdf_path : $certificate->pdf_path;
         
+        // If PDF doesn't exist, try to regenerate it
         if (!$pdfPath || !File::exists(public_path($pdfPath))) {
-            abort(404, 'Certificate file not found');
+            try {
+                Log::info("Certificate PDF missing for {$certificateId}, attempting to regenerate");
+                $this->certificateService->generatePdf($certificate);
+                
+                // Refresh the certificate to get updated paths
+                $certificate->refresh();
+                $pdfPath = $certificate->hasSignedPdf() ? $certificate->signed_pdf_path : $certificate->pdf_path;
+                
+                if (!$pdfPath || !File::exists(public_path($pdfPath))) {
+                    throw new \Exception('PDF regeneration failed');
+                }
+            } catch (\Exception $e) {
+                Log::error("Failed to regenerate certificate PDF for {$certificateId}: " . $e->getMessage());
+                abort(404, trans('plugins/hall-of-fame::certificates.certificate_file_not_found'));
+            }
         }
 
         $headers = [
@@ -138,13 +171,24 @@ class CertificateController extends BaseController
 
     public function verify(string $certificateId)
     {
-        Log::info("Certificate verify method called with ID: " . $certificateId);
+        Theme::setLayout('hall-of-fame');
+        
+        // Set page title and SEO
+        PageTitle::setTitle('Verify Certificate');
+        SeoHelper::setTitle('Verify Certificate')
+            ->setDescription('Verify the authenticity of certificate ' . $certificateId);
+
+        // Set breadcrumbs  
+        Theme::breadcrumb()
+            ->add(__('Home'), route('public.index'))
+            ->add(trans('plugins/hall-of-fame::vulnerability-reports.hall_of_fame'), route('public.hall-of-fame.index'))
+            ->add(trans('plugins/hall-of-fame::certificates.public_certificates'), route('public.certificates.index'))
+            ->add('Verify Certificate', route('public.certificates.verify', $certificateId));
         
         try {
             $verification = $this->certificateService->verifyCertificate($certificateId);
-            Log::info("Verification result: " . json_encode($verification));
             
-            return view('plugins/hall-of-fame::public.certificate-verify', compact('verification', 'certificateId'));
+            return Theme::of('plugins/hall-of-fame::public.certificate-verify', compact('verification', 'certificateId'))->render();
         } catch (\Exception $e) {
             Log::error("Error in verify method: " . $e->getMessage());
             Log::error("Stack trace: " . $e->getTraceAsString());
@@ -161,6 +205,19 @@ class CertificateController extends BaseController
 
     public function publicIndex()
     {
+        Theme::setLayout('hall-of-fame');
+        
+        // Set page title and SEO
+        PageTitle::setTitle(trans('plugins/hall-of-fame::certificates.public_certificates'));
+        SeoHelper::setTitle(trans('plugins/hall-of-fame::certificates.public_certificates'))
+            ->setDescription(trans('plugins/hall-of-fame::certificates.public.browse_certificates_info'));
+
+        // Set breadcrumbs  
+        Theme::breadcrumb()
+            ->add(__('Home'), route('public.index'))
+            ->add(trans('plugins/hall-of-fame::vulnerability-reports.hall_of_fame'), route('public.hall-of-fame.index'))
+            ->add(trans('plugins/hall-of-fame::certificates.public_certificates'), route('public.certificates.index'));
+        
         $certificates = Certificate::with('vulnerabilityReport')
                                  ->whereHas('vulnerabilityReport', function($query) {
                                      $query->where('is_published', true);
@@ -168,18 +225,32 @@ class CertificateController extends BaseController
                                  ->orderBy('created_at', 'desc')
                                  ->paginate(20);
 
-        return view('plugins/hall-of-fame::public.certificates', compact('certificates'));
+        return Theme::of('plugins/hall-of-fame::public.certificates', compact('certificates'))->render();
     }
 
     public function publicShow(string $certificateId)
     {
+        Theme::setLayout('hall-of-fame');
+        
         $certificate = Certificate::where('certificate_id', $certificateId)
                                  ->whereHas('vulnerabilityReport', function($query) {
                                      $query->where('is_published', true);
                                  })
                                  ->firstOrFail();
 
-        return view('plugins/hall-of-fame::public.certificate-details', compact('certificate'));
+        // Set page title and SEO
+        PageTitle::setTitle(trans('plugins/hall-of-fame::certificates.certificate.page_title'));
+        SeoHelper::setTitle(trans('plugins/hall-of-fame::certificates.certificate.page_title'))
+            ->setDescription('Certificate ' . $certificate->certificate_id);
+
+        // Set breadcrumbs  
+        Theme::breadcrumb()
+            ->add(__('Home'), route('public.index'))
+            ->add(trans('plugins/hall-of-fame::vulnerability-reports.hall_of_fame'), route('public.hall-of-fame.index'))
+            ->add(trans('plugins/hall-of-fame::certificates.public_certificates'), route('public.certificates.index'))
+            ->add('Certificate ' . $certificate->certificate_id, route('public.certificates.show', $certificate->certificate_id));
+
+        return Theme::of('plugins/hall-of-fame::public.certificate-details', compact('certificate'))->render();
     }
 
     public function stats(BaseHttpResponse $response)
@@ -205,11 +276,11 @@ class CertificateController extends BaseController
             $certificate->delete();
 
             return $response
-                ->setMessage('Certificate deleted successfully');
+                ->setMessage(trans('plugins/hall-of-fame::certificates.certificate_deleted_successfully'));
         } catch (\Exception $e) {
             return $response
                 ->setError()
-                ->setMessage('Failed to delete certificate: ' . $e->getMessage());
+                ->setMessage(trans('plugins/hall-of-fame::certificates.failed_to_delete') . ': ' . $e->getMessage());
         }
     }
 }

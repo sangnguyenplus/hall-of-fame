@@ -1,15 +1,17 @@
+@include('plugins/hall-of-fame::partials.hof-master')
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">
-                    <h2 class="mb-0">Certificate Details</h2>
+            <div class="hof-card">
+                <div class="hof-card-header">
+                    <h2 class="hof-card-title">Certificate Details</h2>
                 </div>
-                <div class="card-body">
+                <div class="hof-card-content">
                     <div class="row">
                         <div class="col-md-6">
                             <h4>Certificate Information</h4>
-                            <table class="table table-borderless">
+                            <table class="hof-table hof-table-borderless">
                                 <tr>
                                     <td><strong>Certificate ID:</strong></td>
                                     <td>{{ $certificate->certificate_id }}</td>
@@ -22,9 +24,9 @@
                                     <td><strong>Status:</strong></td>
                                     <td>
                                         @if ($certificate->is_active)
-                                            <span class="badge bg-success">Valid</span>
+                                            <span class="hof-badge hof-badge-success">Valid</span>
                                         @else
-                                            <span class="badge bg-danger">Revoked</span>
+                                            <span class="hof-badge hof-badge-danger">Revoked</span>
                                         @endif
                                     </td>
                                 </tr>
@@ -32,7 +34,7 @@
                         </div>
                         <div class="col-md-6">
                             <h4>Vulnerability Details</h4>
-                            <table class="table table-borderless">
+                            <table class="hof-table hof-table-borderless">
                                 <tr>
                                     <td><strong>Title:</strong></td>
                                     <td>{{ $certificate->vulnerabilityReport->title ?? 'N/A' }}</td>
@@ -46,7 +48,7 @@
                                     <td>
                                         @if ($certificate->vulnerabilityReport->severity)
                                             <span
-                                                class="badge bg-{{ $certificate->vulnerabilityReport->severity === 'critical' ? 'danger' : ($certificate->vulnerabilityReport->severity === 'high' ? 'warning' : 'info') }}">
+                                                class="hof-badge hof-badge-{{ $certificate->vulnerabilityReport->severity === 'critical' ? 'danger' : ($certificate->vulnerabilityReport->severity === 'high' ? 'warning' : 'info') }}">
                                                 {{ ucfirst($certificate->vulnerabilityReport->severity) }}
                                             </span>
                                         @else
@@ -76,16 +78,16 @@
 
                     <div class="row">
                         <div class="col-12">
-                            <div class="d-flex gap-2 justify-content-center">
+                            <div class="hof-action-buttons">
                                 <a href="{{ route('public.certificates.download', $certificate->certificate_id) }}"
-                                    class="btn btn-primary">
+                                    class="hof-btn hof-btn-primary">
                                     <i class="fas fa-download"></i> Download PDF
                                 </a>
                                 <a href="{{ route('public.certificates.verify', $certificate->certificate_id) }}"
-                                    class="btn btn-outline-secondary">
+                                    class="hof-btn hof-btn-secondary">
                                     <i class="fas fa-shield-alt"></i> Verify Certificate
                                 </a>
-                                <a href="{{ route('public.certificates.index') }}" class="btn btn-outline-info">
+                                <a href="{{ route('public.certificates.index') }}" class="hof-btn hof-btn-info">
                                     <i class="fas fa-list"></i> All Certificates
                                 </a>
                             </div>
