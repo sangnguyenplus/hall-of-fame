@@ -1,0 +1,58 @@
+{
+    "generated_at": "2025-08-11T00:00:00Z",
+    "reports": [
+        {
+            "title": "No Rate Limiting on Forgot Password Endpoint",
+            "reporter": "Vedant Tanaji Vhatkara",
+            "severity": "High",
+            "category": "Abuse / Rate Limiting",
+            "summary": "Forgot Password endpoint allows unlimited requests; can be abused to email bomb and enumerate accounts.",
+            "poc": [
+                "https://drive.google.com/file/d/1WWw8MeMgf5Bq8ZhVzOXC7adYAxXY-Fc3/view?usp=drive_web",
+                "https://drive.google.com/file/d/1bbW_grNQFmQwU3IIAegb5wSINaO1fiaH/view?usp=drive_link"
+            ],
+            "file": "Bug report _No Rate Limiting on \u201cForgot Password\u201d Endpoint.eml"
+        },
+        {
+            "title": "Weak Password Policy Allows Easily Guessable Credentials",
+            "reporter": "Yash Jare",
+            "severity": "Medium-High",
+            "category": "Authentication / Password Policy",
+            "summary": "System accepts weak passwords such as 'Test123', '123456', 'password'.",
+            "file": "Weak Password Policy Allows Easily Guessable Credentials.eml"
+        },
+        {
+            "title": "Missing Rate Limiting on Account Deletion Email Trigger",
+            "reporter": "Vedant Tanaji Vhatkar",
+            "severity": "Medium-High",
+            "category": "Abuse / Rate Limiting",
+            "summary": "Account deletion email trigger endpoint can be spammed to flood inbox.",
+            "poc": [
+                "https://drive.google.com/file/d/1_z2T_hb-hDk2fb5Gq-w1PJb7UJXw5XT8/view?usp=drive_link"
+            ],
+            "file": "Bug Report_ Missing Rate Limiting on Account Deletion Email Trigger.eml"
+        },
+        {
+            "title": "Failure to Invalidate Session and No Notification After Password Change",
+            "reporter": "Vedant Tanaji Vhatkar",
+            "severity": "Critical",
+            "category": "Session Management",
+            "summary": "Sessions remain active after password change and no notification is sent to the user.",
+            "poc": [
+                "https://drive.google.com/file/d/1f1FAmCCgQLfzcquS-f0ZM6H5GZhIc57I/view?usp=drive_link"
+            ],
+            "file": "Bug Report_ Failure to Invalidate Session After Password Change+ No User Notification After Password Change.eml"
+        },
+        {
+            "title": "Concurrent Session Vulnerability: Real-Time Session Synchronization Allows Cross-Session Data Modification",
+            "reporter": "Yash Jare",
+            "severity": "Medium",
+            "category": "Session Management",
+            "summary": "Actions in one session reflect in another without revalidation; increases risk if one session is hijacked.",
+            "attachments": [
+                "screen-capture (75).webm"
+            ],
+            "file": "Concurrent Session Vulnerability_Real-Time Session Synchronization Allows Cross-Session Data Modification.eml"
+        }
+    ]
+}

@@ -1,0 +1,711 @@
+/* 
+ * Hall of Fame - Modern 2025 Design System
+ * Inspired by the latest design trends: Glassmorphism, Neumorphism, and Clean Minimalism
+ */
+
+:root {
+    /* Modern Color Palette - 2025 Trends */
+    --hof-primary: #6366f1;
+    --hof-primary-light: #818cf8;
+    --hof-primary-dark: #4f46e5;
+    --hof-secondary: #64748b;
+    --hof-accent: #f59e0b;
+    --hof-success: #10b981;
+    --hof-danger: #ef4444;
+    --hof-warning: #f59e0b;
+    --hof-info: #06b6d4;
+
+    /* Neutral Colors */
+    --hof-white: #ffffff;
+    --hof-gray-50: #f8fafc;
+    --hof-gray-100: #f1f5f9;
+    --hof-gray-200: #e2e8f0;
+    --hof-gray-300: #cbd5e1;
+    --hof-gray-400: #94a3b8;
+    --hof-gray-500: #64748b;
+    --hof-gray-600: #475569;
+    --hof-gray-700: #334155;
+    --hof-gray-800: #1e293b;
+    --hof-gray-900: #0f172a;
+
+    /* Modern Gradients */
+    --hof-gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --hof-gradient-modern: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #06b6d4 100%);
+    --hof-gradient-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+    --hof-gradient-subtle: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+
+    /* Shadows - Modern Depth */
+    --hof-shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --hof-shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    --hof-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --hof-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --hof-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    --hof-shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    --hof-shadow-glow: 0 0 20px rgba(99, 102, 241, 0.3);
+
+    /* Border Radius - Modern Curves */
+    --hof-radius-none: 0;
+    --hof-radius-sm: 4px;
+    --hof-radius-md: 8px;
+    --hof-radius-lg: 12px;
+    --hof-radius-xl: 16px;
+    --hof-radius-2xl: 20px;
+    --hof-radius-3xl: 24px;
+    --hof-radius-full: 9999px;
+
+    /* Transitions - Smooth Animations */
+    --hof-transition-fast: all 0.15s ease-out;
+    --hof-transition-normal: all 0.25s ease-out;
+    --hof-transition-slow: all 0.4s ease-out;
+
+    /* Backdrop Blur - Glassmorphism */
+    --hof-blur-sm: blur(4px);
+    --hof-blur-md: blur(8px);
+    --hof-blur-lg: blur(16px);
+    --hof-blur-xl: blur(24px);
+
+    /* Spacing Scale */
+    --hof-space-1: 0.25rem;
+    --hof-space-2: 0.5rem;
+    --hof-space-3: 0.75rem;
+    --hof-space-4: 1rem;
+    --hof-space-5: 1.25rem;
+    --hof-space-6: 1.5rem;
+    --hof-space-8: 2rem;
+    --hof-space-10: 2.5rem;
+    --hof-space-12: 3rem;
+    --hof-space-16: 4rem;
+    --hof-space-20: 5rem;
+}
+
+/* Reset and Base Styles */
+* {
+    box-sizing: border-box;
+}
+
+.hof-container {
+    background: var(--hof-gray-50);
+    min-height: 100vh;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6;
+    color: var(--hof-gray-800);
+}
+
+/* Modern Typography */
+.hof-display-1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.025em;
+    background: var(--hof-gradient-modern);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hof-display-2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.025em;
+}
+
+.hof-title {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.3;
+    color: var(--hof-gray-900);
+    margin-bottom: var(--hof-space-4);
+}
+
+.hof-subtitle {
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--hof-gray-700);
+    margin-bottom: var(--hof-space-3);
+}
+
+.hof-text-gradient {
+    background: var(--hof-gradient-modern);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 700;
+}
+
+/* Modern Cards with Glassmorphism */
+.hof-card {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: var(--hof-blur-md);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--hof-radius-2xl);
+    box-shadow: var(--hof-shadow-lg);
+    transition: var(--hof-transition-normal);
+    overflow: hidden;
+    position: relative;
+}
+
+.hof-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.4) 50%, transparent 100%);
+}
+
+.hof-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--hof-shadow-2xl);
+    border-color: rgba(99, 102, 241, 0.2);
+}
+
+.hof-card-glass {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: var(--hof-blur-lg);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.hof-card-header {
+    padding: var(--hof-space-6);
+    border-bottom: 1px solid var(--hof-gray-100);
+    background: var(--hof-gradient-subtle);
+}
+
+.hof-card-content {
+    padding: var(--hof-space-6);
+}
+
+.hof-card-footer {
+    padding: var(--hof-space-4) var(--hof-space-6);
+    background: var(--hof-gray-50);
+    border-top: 1px solid var(--hof-gray-100);
+}
+
+/* Modern Buttons */
+.hof-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--hof-space-2);
+    padding: var(--hof-space-3) var(--hof-space-6);
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1;
+    border: none;
+    border-radius: var(--hof-radius-lg);
+    transition: var(--hof-transition-fast);
+    cursor: pointer;
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.hof-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: var(--hof-transition-normal);
+}
+
+.hof-btn:hover::before {
+    left: 100%;
+}
+
+.hof-btn-primary {
+    background: var(--hof-gradient-modern);
+    color: white;
+    box-shadow: var(--hof-shadow-md);
+}
+
+.hof-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--hof-shadow-lg), var(--hof-shadow-glow);
+}
+
+.hof-btn-secondary {
+    background: var(--hof-gray-100);
+    color: var(--hof-gray-700);
+    border: 1px solid var(--hof-gray-200);
+}
+
+.hof-btn-secondary:hover {
+    background: var(--hof-gray-200);
+    transform: translateY(-1px);
+}
+
+.hof-btn-ghost {
+    background: transparent;
+    color: var(--hof-primary);
+    border: 1px solid var(--hof-primary);
+}
+
+.hof-btn-ghost:hover {
+    background: var(--hof-primary);
+    color: white;
+}
+
+.hof-btn-sm {
+    padding: var(--hof-space-2) var(--hof-space-4);
+    font-size: 0.75rem;
+    border-radius: var(--hof-radius-md);
+}
+
+.hof-btn-lg {
+    padding: var(--hof-space-4) var(--hof-space-8);
+    font-size: 1rem;
+    border-radius: var(--hof-radius-xl);
+}
+
+/* Modern Form Controls */
+.hof-form-group {
+    margin-bottom: var(--hof-space-6);
+}
+
+.hof-form-label {
+    display: flex;
+    align-items: center;
+    gap: var(--hof-space-2);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--hof-gray-700);
+    margin-bottom: var(--hof-space-2);
+}
+
+.hof-form-control {
+    width: 100%;
+    padding: var(--hof-space-3) var(--hof-space-4);
+    font-size: 0.875rem;
+    border: 2px solid var(--hof-gray-200);
+    border-radius: var(--hof-radius-lg);
+    background: white;
+    transition: var(--hof-transition-fast);
+    outline: none;
+}
+
+.hof-form-control:focus {
+    border-color: var(--hof-primary);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.input-group {
+    display: flex;
+    align-items: stretch;
+}
+
+.input-group-text {
+    display: flex;
+    align-items: center;
+    padding: var(--hof-space-3) var(--hof-space-4);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--hof-gray-600);
+    background: var(--hof-gray-100);
+    border: 2px solid var(--hof-gray-200);
+    border-right: none;
+    border-radius: var(--hof-radius-lg) 0 0 var(--hof-radius-lg);
+}
+
+.input-group .hof-form-control {
+    border-left: none;
+    border-radius: 0 var(--hof-radius-lg) var(--hof-radius-lg) 0;
+}
+
+/* Modern Badges */
+.hof-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--hof-space-1);
+    padding: var(--hof-space-1) var(--hof-space-3);
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: var(--hof-radius-full);
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+}
+
+.hof-badge-primary {
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--hof-primary-dark);
+}
+
+.hof-badge-success {
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--hof-success);
+}
+
+.hof-badge-danger {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--hof-danger);
+}
+
+.hof-badge-warning {
+    background: rgba(245, 158, 11, 0.1);
+    color: var(--hof-warning);
+}
+
+.hof-badge-info {
+    background: rgba(6, 182, 212, 0.1);
+    color: var(--hof-info);
+}
+
+/* Modern Alerts */
+.hof-alert {
+    padding: var(--hof-space-4);
+    border-radius: var(--hof-radius-lg);
+    border-left: 4px solid;
+    background: white;
+    box-shadow: var(--hof-shadow-sm);
+}
+
+.hof-alert-success {
+    border-left-color: var(--hof-success);
+    background: rgba(16, 185, 129, 0.05);
+    color: var(--hof-success);
+}
+
+.hof-alert-info {
+    border-left-color: var(--hof-info);
+    background: rgba(6, 182, 212, 0.05);
+    color: var(--hof-info);
+}
+
+.hof-alert-warning {
+    border-left-color: var(--hof-warning);
+    background: rgba(245, 158, 11, 0.05);
+    color: var(--hof-warning);
+}
+
+.hof-alert-danger {
+    border-left-color: var(--hof-danger);
+    background: rgba(239, 68, 68, 0.05);
+    color: var(--hof-danger);
+}
+
+/* Modern Navigation */
+.hof-navigation {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: var(--hof-blur-md);
+    border-bottom: 1px solid var(--hof-gray-200);
+    padding: var(--hof-space-4) 0;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+}
+
+.hof-nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--hof-space-2);
+    padding: var(--hof-space-2) var(--hof-space-4);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--hof-gray-600);
+    text-decoration: none;
+    border-radius: var(--hof-radius-lg);
+    transition: var(--hof-transition-fast);
+    margin-right: var(--hof-space-2);
+}
+
+.hof-nav-link:hover,
+.hof-nav-link.active {
+    background: var(--hof-primary);
+    color: white;
+    transform: translateY(-1px);
+}
+
+/* Modern Icon Circles */
+.hof-icon-circle {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--hof-radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.hof-icon-circle::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: var(--hof-gradient-modern);
+    border-radius: var(--hof-radius-full);
+    z-index: -1;
+}
+
+.hof-bg-primary {
+    background: var(--hof-primary);
+}
+
+.hof-bg-success {
+    background: var(--hof-success);
+}
+
+.hof-bg-warning {
+    background: var(--hof-warning);
+}
+
+.hof-bg-info {
+    background: var(--hof-info);
+}
+
+.hof-bg-secondary {
+    background: var(--hof-secondary);
+}
+
+/* Modern Dashboard Header */
+.dashboard-header {
+    background: var(--hof-gradient-subtle);
+    border-radius: var(--hof-radius-2xl);
+    padding: var(--hof-space-8);
+    margin-bottom: var(--hof-space-8);
+    position: relative;
+    overflow: hidden;
+}
+
+.dashboard-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--hof-gradient-modern);
+    opacity: 0.05;
+    z-index: 1;
+}
+
+.dashboard-header>* {
+    position: relative;
+    z-index: 2;
+}
+
+/* Modern Stat Cards */
+.hof-stat-card {
+    background: white;
+    border-radius: var(--hof-radius-xl);
+    padding: var(--hof-space-6);
+    box-shadow: var(--hof-shadow-md);
+    transition: var(--hof-transition-normal);
+    border: 1px solid var(--hof-gray-100);
+    position: relative;
+    overflow: hidden;
+}
+
+.hof-stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--hof-gradient-modern);
+}
+
+.hof-stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--hof-shadow-xl);
+}
+
+.hof-stat-value {
+    font-size: 2.5rem;
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: var(--hof-space-2);
+}
+
+.hof-stat-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--hof-gray-600);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.hof-stat-icon {
+    position: absolute;
+    top: var(--hof-space-4);
+    right: var(--hof-space-4);
+    font-size: 2rem;
+    opacity: 0.1;
+}
+
+/* Modern Content Boxes */
+.hof-content-box {
+    background: var(--hof-gray-50);
+    border: 1px solid var(--hof-gray-200);
+    border-radius: var(--hof-radius-lg);
+    padding: var(--hof-space-4);
+    font-size: 0.875rem;
+    line-height: 1.6;
+}
+
+.hof-code-box {
+    background: var(--hof-gray-900);
+    color: var(--hof-gray-100);
+    border-radius: var(--hof-radius-lg);
+    padding: var(--hof-space-4);
+    overflow-x: auto;
+}
+
+.hof-code-box pre {
+    margin: 0;
+    font-family: 'Fira Code', 'Monaco', 'Consolas', monospace;
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+
+/* Modern Section Titles */
+.hof-section-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--hof-gray-800);
+    margin-bottom: var(--hof-space-4);
+    display: flex;
+    align-items: center;
+    gap: var(--hof-space-2);
+}
+
+.hof-section-title::before {
+    content: '';
+    width: 4px;
+    height: 1.5rem;
+    background: var(--hof-gradient-modern);
+    border-radius: var(--hof-radius-sm);
+}
+
+/* Modern Dividers */
+.hof-divider {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, var(--hof-gray-200) 50%, transparent 100%);
+    margin: var(--hof-space-8) 0;
+}
+
+/* Modern Empty States */
+.hof-empty-state {
+    text-align: center;
+    padding: var(--hof-space-16) var(--hof-space-8);
+    color: var(--hof-gray-500);
+}
+
+.hof-empty-state i {
+    font-size: 4rem;
+    opacity: 0.3;
+    margin-bottom: var(--hof-space-4);
+}
+
+.hof-empty-state h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--hof-space-2);
+}
+
+/* Modern Animations */
+@keyframes hof-fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes hof-slide-in {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.hof-animate-fade-in {
+    animation: hof-fade-in 0.6s ease-out;
+}
+
+.hof-animate-slide-in {
+    animation: hof-slide-in 0.6s ease-out;
+}
+
+/* Modern Responsive Design */
+@media (max-width: 768px) {
+    .hof-display-1 {
+        font-size: 2.5rem;
+    }
+
+    .hof-display-2 {
+        font-size: 2rem;
+    }
+
+    .hof-title {
+        font-size: 1.5rem;
+    }
+
+    .hof-card-content,
+    .hof-card-header {
+        padding: var(--hof-space-4);
+    }
+
+    .dashboard-header {
+        padding: var(--hof-space-6);
+    }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --hof-gray-50: #1e293b;
+        --hof-gray-100: #334155;
+        --hof-gray-200: #475569;
+        --hof-gray-800: #f1f5f9;
+        --hof-gray-900: #f8fafc;
+    }
+
+    .hof-container {
+        background: var(--hof-gray-900);
+        color: var(--hof-gray-100);
+    }
+
+    .hof-card {
+        background: rgba(30, 41, 59, 0.8);
+        border-color: rgba(71, 85, 105, 0.3);
+    }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--hof-gray-100);
+    border-radius: var(--hof-radius-full);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--hof-gray-400);
+    border-radius: var(--hof-radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--hof-primary);
+}
