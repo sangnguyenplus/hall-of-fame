@@ -3,10 +3,9 @@
 namespace Whozidis\HallOfFame\Http\Controllers\Auth;
 
 use Botble\ACL\Models\User;
-use Botble\Base\Facades\PageTitle;
 use Botble\Base\Http\Controllers\BaseController;
 use Botble\Base\Http\Responses\BaseHttpResponse;
-use Botble\SeoHelper\Facades\SeoHelper;
+use Botble\Theme\Facades\Theme;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -18,13 +17,13 @@ class RegisterController extends BaseController
     public function showRegistrationForm()
     {
         // Set theme layout and breadcrumbs
-        \Botble\Theme\Facades\Theme::setLayout('hall-of-fame');
-        \Botble\Theme\Facades\Theme::breadcrumb()
+        Theme::setLayout('hall-of-fame');
+        Theme::breadcrumb()
             ->add(__('Home'), route('public.index'))
             ->add('Hall of Fame', route('public.hall-of-fame.index'))
             ->add('Register', route('public.hall-of-fame.auth.register'));
 
-        return \Botble\Theme\Facades\Theme::of('plugins/hall-of-fame::auth.register')->render();
+        return Theme::of('plugins/hall-of-fame::auth.register')->render();
     }
 
     public function register(Request $request, BaseHttpResponse $response)

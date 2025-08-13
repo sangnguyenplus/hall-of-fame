@@ -35,7 +35,7 @@ class AfterPasswordChangeActions
                     Log::warning('Failed sending PasswordChangedNotification: ' . $e->getMessage());
                 }
             }
-    } catch (\Throwable $e) {
+        } catch (\Throwable $e) {
             Log::warning('AfterPasswordChangeActions middleware error: ' . $e->getMessage());
         }
 

@@ -3,8 +3,8 @@
 namespace Whozidis\HallOfFame\Http\Controllers\Settings;
 
 use Botble\Setting\Http\Controllers\SettingController;
-use Whozidis\HallOfFame\Http\Requests\Settings\PGPSettingRequest;
 use Whozidis\HallOfFame\Forms\Settings\PGPSettingForm;
+use Whozidis\HallOfFame\Http\Requests\Settings\PGPSettingRequest;
 
 class PGPSettingController extends SettingController
 {

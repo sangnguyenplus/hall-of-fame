@@ -4,10 +4,13 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class () extends Migration {
     public function up(): void
     {
+        if (Schema::hasTable('hof_certificates')) {
+            return;
+        }
+
         Schema::create('hof_certificates', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('vulnerability_report_id');

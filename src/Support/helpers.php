@@ -1,6 +1,8 @@
 <?php
 
-if (!function_exists('hof_researcher')) {
+use Whozidis\HallOfFame\Models\Researcher;
+
+if (! function_exists('hof_researcher')) {
     /**
      * Get the currently authenticated Hall of Fame researcher
      *
@@ -8,15 +10,15 @@ if (!function_exists('hof_researcher')) {
      */
     function hof_researcher()
     {
-        if (!session('hof_researcher')) {
+        if (! session('hof_researcher')) {
             return null;
         }
 
-        return \Whozidis\HallOfFame\Models\Researcher::find(session('hof_researcher'));
+        return Researcher::find(session('hof_researcher'));
     }
 }
 
-if (!function_exists('hof_researcher_authenticated')) {
+if (! function_exists('hof_researcher_authenticated')) {
     /**
      * Check if a Hall of Fame researcher is authenticated
      *
@@ -28,7 +30,7 @@ if (!function_exists('hof_researcher_authenticated')) {
     }
 }
 
-if (!function_exists('get_gravatar')) {
+if (! function_exists('get_gravatar')) {
     /**
      * Get either a Gravatar URL or complete image tag for a specified email address.
      *

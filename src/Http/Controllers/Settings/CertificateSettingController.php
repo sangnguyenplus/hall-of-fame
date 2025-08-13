@@ -2,7 +2,6 @@
 
 namespace Whozidis\HallOfFame\Http\Controllers\Settings;
 
-use Botble\Base\Facades\BaseHelper;
 use Botble\Base\Http\Controllers\BaseController;
 use Botble\Base\Http\Responses\BaseHttpResponse;
 use Botble\Setting\Facades\Setting;

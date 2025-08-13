@@ -3,7 +3,6 @@
 namespace Whozidis\HallOfFame\Http\Requests;
 
 use Botble\Support\Http\Requests\Request;
-use Illuminate\Support\Facades\Route;
 
 class ResearcherRequest extends Request
 {
@@ -24,7 +23,7 @@ class ResearcherRequest extends Request
             $rules['email'] .= '|unique:hof_researchers,email,' . $id;
 
             // Password is optional for existing records
-            if (!empty(request()->password)) {
+            if (! empty(request()->password)) {
                 $rules['password'] = 'nullable|min:8|confirmed';
                 $rules['password_confirmation'] = 'nullable|min:8';
             }

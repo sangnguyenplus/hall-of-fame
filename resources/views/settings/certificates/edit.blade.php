@@ -89,7 +89,7 @@
                                                 <input type="range" class="form-control-range"
                                                     id="certificate_watermark_opacity" name="certificate_watermark_opacity"
                                                     min="0" max="1" step="0.1"
-                                                    value="{{ old('certificate_watermark_opacity', $settings['certificate_watermark_opacity']) }}">>
+                                                    value="{{ old('certificate_watermark_opacity', $settings['certificate_watermark_opacity']) }}">
                                                 <div class="d-flex justify-content-between">
                                                     <small>Transparent</small>
                                                     <small>Current: <span

@@ -5,7 +5,6 @@ namespace Whozidis\HallOfFame\Tables;
 use Botble\Base\Enums\BaseStatusEnum;
 use Botble\Base\Facades\BaseHelper;
 use Botble\Base\Facades\Html;
-use Whozidis\HallOfFame\Models\Certificate;
 use Botble\Table\Abstracts\TableAbstract;
 use Botble\Table\Actions\DeleteAction;
 use Botble\Table\Actions\EditAction;
@@ -19,6 +18,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Http\JsonResponse;
+use Whozidis\HallOfFame\Models\Certificate;
 
 class CertificateTable extends TableAbstract
 {
@@ -43,6 +43,7 @@ class CertificateTable extends TableAbstract
                 if ($item->vulnerabilityReport) {
                     return Html::tag('span', $item->vulnerabilityReport->title ?: 'Report #' . $item->vulnerability_report_id);
                 }
+
                 return trans('plugins/hall-of-fame::certificates.admin.n_a');
             })
             ->editColumn('researcher_name', function (Certificate $item) {
@@ -53,30 +54,35 @@ class CertificateTable extends TableAbstract
                 if ($item->vulnerabilityReport && $item->vulnerabilityReport->researcher_name) {
                     return $item->vulnerabilityReport->researcher_name;
                 }
+
                 return trans('plugins/hall-of-fame::certificates.admin.n_a');
             })
             ->editColumn('has_pdf', function (Certificate $item) {
                 if ($item->hasPdf()) {
                     return Html::tag('span', __('Yes'), ['class' => 'label label-success']);
                 }
+
                 return Html::tag('span', __('No'), ['class' => 'label label-warning']);
             })
             ->editColumn('has_signed_pdf', function (Certificate $item) {
                 if ($item->hasSignedPdf()) {
                     return Html::tag('span', __('Yes'), ['class' => 'label label-success']);
                 }
+
                 return Html::tag('span', __('No'), ['class' => 'label label-warning']);
             })
             ->addColumn('has_pdf', function (Certificate $item) {
                 if ($item->hasPdf()) {
                     return Html::tag('span', __('Yes'), ['class' => 'label label-success']);
                 }
+
                 return Html::tag('span', __('No'), ['class' => 'label label-warning']);
             })
             ->addColumn('has_signed_pdf', function (Certificate $item) {
                 if ($item->hasSignedPdf()) {
                     return Html::tag('span', __('Yes'), ['class' => 'label label-success']);
                 }
+
                 return Html::tag('span', __('No'), ['class' => 'label label-warning']);
             });
 

@@ -42,6 +42,7 @@ class ResearchersTable extends TableAbstract
                         $item->name
                     );
                 }
+
                 return $item->name;
             })
             ->editColumn('email', function (Researcher $item) {
@@ -95,8 +96,9 @@ class ResearchersTable extends TableAbstract
     public function buttons(): array
     {
         if (is_in_admin(true)) {
-            return $this->addCreateButton(route(BaseHelper::getAdminPrefix() . '.researchers.create'), 'researchers.create');
+            return $this->addCreateButton(route('researchers.create'), 'researchers.create');
         }
+
         return [];
     }
 

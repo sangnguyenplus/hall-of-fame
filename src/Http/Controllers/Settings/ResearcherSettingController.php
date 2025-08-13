@@ -3,8 +3,8 @@
 namespace Whozidis\HallOfFame\Http\Controllers\Settings;
 
 use Botble\Setting\Http\Controllers\SettingController;
-use Whozidis\HallOfFame\Http\Requests\Settings\ResearcherSettingRequest;
 use Whozidis\HallOfFame\Forms\Settings\ResearcherSettingForm;
+use Whozidis\HallOfFame\Http\Requests\Settings\ResearcherSettingRequest;
 
 class ResearcherSettingController extends SettingController
 {

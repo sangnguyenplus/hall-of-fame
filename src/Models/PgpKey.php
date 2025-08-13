@@ -65,6 +65,7 @@ class PgpKey extends BaseModel
                 return null;
             }
         }
+
         return null;
     }
 
@@ -90,6 +91,7 @@ class PgpKey extends BaseModel
                 return null;
             }
         }
+
         return null;
     }
 
@@ -127,14 +129,14 @@ class PgpKey extends BaseModel
      */
     public function getStatusBadge(): string
     {
-        if (!$this->is_active) {
+        if (! $this->is_active) {
             return '<span class="badge bg-secondary">Inactive</span>';
         }
-        
+
         if ($this->isExpired()) {
             return '<span class="badge bg-danger">Expired</span>';
         }
-        
+
         return '<span class="badge bg-success">Active</span>';
     }
 }

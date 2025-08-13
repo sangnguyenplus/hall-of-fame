@@ -80,7 +80,7 @@ class Certificate extends BaseModel
      */
     public function hasPdf(): bool
     {
-        return !empty($this->pdf_path) && file_exists(public_path($this->pdf_path));
+        return ! empty($this->pdf_path) && file_exists(public_path($this->pdf_path));
     }
 
     /**
@@ -88,6 +88,6 @@ class Certificate extends BaseModel
      */
     public function hasSignedPdf(): bool
     {
-        return !empty($this->signed_pdf_path) && file_exists(public_path($this->signed_pdf_path));
+        return ! empty($this->signed_pdf_path) && file_exists(public_path($this->signed_pdf_path));
     }
 }

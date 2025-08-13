@@ -2,14 +2,6 @@
 
 use Botble\Base\Facades\BaseHelper;
 use Illuminate\Support\Facades\Route;
-use Whozidis\HallOfFame\Http\Controllers\VulnerabilityReportController;
-use Whozidis\HallOfFame\Http\Controllers\ResearcherController;
-use Whozidis\HallOfFame\Http\Controllers\CertificateController;
-use Whozidis\HallOfFame\Http\Controllers\Settings\PGPSettingController;
-use Whozidis\HallOfFame\Http\Controllers\Settings\ResearcherSettingController;
-use Whozidis\HallOfFame\Http\Controllers\Settings\VulnerabilityReportSettingController;
-use Whozidis\HallOfFame\Http\Controllers\Settings\CertificateSettingController;
-use Whozidis\HallOfFame\Http\Controllers\Settings\PgpKeyController;
 
 Route::group([
     'namespace' => 'Whozidis\HallOfFame\Http\Controllers',
@@ -17,7 +9,7 @@ Route::group([
     'prefix' => BaseHelper::getAdminPrefix(),
 ], function () {
     Route::group(['prefix' => 'vulnerability-reports', 'as' => 'vulnerability-reports.'], function () {
-        Route::get('/', [
+        Route::match(['GET', 'POST'], '/', [
             'as' => 'index',
             'uses' => 'VulnerabilityReportController@index',
             'permission' => 'vulnerability-reports.index',
@@ -73,7 +65,7 @@ Route::group([
     });
 
     Route::group(['prefix' => 'researchers', 'as' => 'researchers.'], function () {
-        Route::get('/', [
+        Route::match(['GET', 'POST'], '/', [
             'as' => 'index',
             'uses' => 'ResearcherController@index',
             'permission' => 'researchers.index',
@@ -112,7 +104,7 @@ Route::group([
 
     // Certificate management routes
     Route::group(['prefix' => 'certificates', 'as' => 'certificates.'], function () {
-        Route::get('/', [
+        Route::match(['GET', 'POST'], '/', [
             'as' => 'index',
             'uses' => 'CertificateController@index',
             'permission' => 'certificates.index',
@@ -162,97 +154,97 @@ Route::group([
         'permission' => 'hall-of-fame.settings',
         'as' => 'hall-of-fame.settings.',
     ], function () {
-            Route::get('pgp', [
-                'as' => 'pgp.edit',
-                'uses' => 'Settings\\PGPSettingController@edit',
+        Route::get('pgp', [
+            'as' => 'pgp.edit',
+            'uses' => 'Settings\\PGPSettingController@edit',
+        ]);
+
+        Route::put('pgp', [
+            'as' => 'pgp.update',
+            'uses' => 'Settings\\PGPSettingController@update',
+        ]);
+
+        Route::get('researchers', [
+            'as' => 'researchers.edit',
+            'uses' => 'Settings\\ResearcherSettingController@edit',
+        ]);
+
+        Route::put('researchers', [
+            'as' => 'researchers.update',
+            'uses' => 'Settings\\ResearcherSettingController@update',
+        ]);
+
+        Route::get('vulnerability-reports', [
+            'as' => 'vulnerability-reports.edit',
+            'uses' => 'Settings\\VulnerabilityReportSettingController@edit',
+        ]);
+
+        Route::put('vulnerability-reports', [
+            'as' => 'vulnerability-reports.update',
+            'uses' => 'Settings\\VulnerabilityReportSettingController@update',
+        ]);
+
+        Route::get('certificates', [
+            'as' => 'certificates.edit',
+            'uses' => 'Settings\\CertificateSettingController@edit',
+        ]);
+
+        Route::put('certificates', [
+            'as' => 'certificates.update',
+            'uses' => 'Settings\\CertificateSettingController@update',
+        ]);
+
+        // PGP Key Management Routes
+        Route::group(['prefix' => 'pgp-keys', 'as' => 'pgp-keys.'], function () {
+            Route::match(['GET', 'POST'], '/', [
+                'as' => 'index',
+                'uses' => 'Settings\\PgpKeyController@index',
             ]);
 
-            Route::put('pgp', [
-                'as' => 'pgp.update',
-                'uses' => 'Settings\\PGPSettingController@update',
+            Route::get('/create', [
+                'as' => 'create',
+                'uses' => 'Settings\\PgpKeyController@create',
             ]);
 
-            Route::get('researchers', [
-                'as' => 'researchers.edit',
-                'uses' => 'Settings\\ResearcherSettingController@edit',
+            Route::post('/', [
+                'as' => 'store',
+                'uses' => 'Settings\\PgpKeyController@store',
             ]);
 
-            Route::put('researchers', [
-                'as' => 'researchers.update',
-                'uses' => 'Settings\\ResearcherSettingController@update',
-            ]);
-            
-            Route::get('vulnerability-reports', [
-                'as' => 'vulnerability-reports.edit',
-                'uses' => 'Settings\\VulnerabilityReportSettingController@edit',
+            Route::get('/{id}', [
+                'as' => 'show',
+                'uses' => 'Settings\\PgpKeyController@show',
             ]);
 
-            Route::put('vulnerability-reports', [
-                'as' => 'vulnerability-reports.update',
-                'uses' => 'Settings\\VulnerabilityReportSettingController@update',
-            ]);
-            
-            Route::get('certificates', [
-                'as' => 'certificates.edit',
-                'uses' => 'Settings\\CertificateSettingController@edit',
+            Route::get('/{id}/activate', [
+                'as' => 'activate',
+                'uses' => 'Settings\\PgpKeyController@activate',
             ]);
 
-            Route::put('certificates', [
-                'as' => 'certificates.update',
-                'uses' => 'Settings\\CertificateSettingController@update',
+            Route::get('/{id}/deactivate', [
+                'as' => 'deactivate',
+                'uses' => 'Settings\\PgpKeyController@deactivate',
             ]);
-            
-            // PGP Key Management Routes
-            Route::group(['prefix' => 'pgp-keys', 'as' => 'pgp-keys.'], function () {
-                Route::get('/', [
-                    'as' => 'index',
-                    'uses' => 'Settings\\PgpKeyController@index',
-                ]);
 
-                Route::get('/create', [
-                    'as' => 'create',
-                    'uses' => 'Settings\\PgpKeyController@create',
-                ]);
+            Route::delete('/{id}', [
+                'as' => 'destroy',
+                'uses' => 'Settings\\PgpKeyController@destroy',
+            ]);
 
-                Route::post('/', [
-                    'as' => 'store',
-                    'uses' => 'Settings\\PgpKeyController@store',
-                ]);
+            Route::get('/{id}/export-public', [
+                'as' => 'export-public',
+                'uses' => 'Settings\\PgpKeyController@exportPublic',
+            ]);
 
-                Route::get('/{id}', [
-                    'as' => 'show',
-                    'uses' => 'Settings\\PgpKeyController@show',
-                ]);
+            Route::post('/{id}/test-signing', [
+                'as' => 'test-signing',
+                'uses' => 'Settings\\PgpKeyController@testSigning',
+            ]);
 
-                Route::get('/{id}/activate', [
-                    'as' => 'activate',
-                    'uses' => 'Settings\\PgpKeyController@activate',
-                ]);
-
-                Route::get('/{id}/deactivate', [
-                    'as' => 'deactivate',
-                    'uses' => 'Settings\\PgpKeyController@deactivate',
-                ]);
-
-                Route::delete('/{id}', [
-                    'as' => 'destroy',
-                    'uses' => 'Settings\\PgpKeyController@destroy',
-                ]);
-
-                Route::get('/{id}/export-public', [
-                    'as' => 'export-public',
-                    'uses' => 'Settings\\PgpKeyController@exportPublic',
-                ]);
-
-                Route::post('/{id}/test-signing', [
-                    'as' => 'test-signing',
-                    'uses' => 'Settings\\PgpKeyController@testSigning',
-                ]);
-
-                Route::get('/import-provided', [
-                    'as' => 'import-provided',
-                    'uses' => 'Settings\\PgpKeyController@importProvided',
-                ]);
-            });
+            Route::get('/import-provided', [
+                'as' => 'import-provided',
+                'uses' => 'Settings\\PgpKeyController@importProvided',
+            ]);
+        });
     });
 });

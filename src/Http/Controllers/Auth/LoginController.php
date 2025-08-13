@@ -2,10 +2,8 @@
 
 namespace Whozidis\HallOfFame\Http\Controllers\Auth;
 
-use Botble\Base\Facades\PageTitle;
 use Botble\Base\Http\Controllers\BaseController;
 use Botble\Base\Http\Responses\BaseHttpResponse;
-use Botble\SeoHelper\Facades\SeoHelper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;

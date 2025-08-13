@@ -2,16 +2,16 @@
 
 namespace Whozidis\HallOfFame\Services;
 
-use Whozidis\HallOfFame\Models\Certificate;
-use Whozidis\HallOfFame\Models\VulnerabilityReport;
-use Whozidis\HallOfFame\Models\PgpKey;
 use Botble\Media\Facades\RvMedia;
 use Botble\Setting\Facades\Setting;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\View;
-use Dompdf\Dompdf;
-use Dompdf\Options;
+use Whozidis\HallOfFame\Models\Certificate;
+use Whozidis\HallOfFame\Models\PgpKey;
+use Whozidis\HallOfFame\Models\VulnerabilityReport;
 
 class CertificateService
 {
@@ -28,7 +28,7 @@ class CertificateService
     public function generateCertificate(VulnerabilityReport $report): Certificate
     {
         $certificateId = Certificate::generateCertificateId();
-        
+
         $certificate = new Certificate([
             'vulnerability_report_id' => $report->id,
             'certificate_id' => $certificateId,
@@ -60,17 +60,17 @@ class CertificateService
     public function generatePdf(Certificate $certificate): string
     {
         $html = $this->renderCertificateHtml($certificate);
-        
-    $options = new Options();
+
+        $options = new Options();
         $options->set('defaultFont', 'Arial');
         $options->set('isRemoteEnabled', true);
         $options->set('isHtml5ParserEnabled', true);
         $options->set('isPhpEnabled', true);
         $options->set('debugPng', true);
         $options->set('debugKeepTemp', true);
-    // Ensure local filesystem images under public/ are accessible
-    $options->setChroot(public_path());
-        
+        // Ensure local filesystem images under public/ are accessible
+        $options->setChroot(public_path());
+
         $dompdf = new Dompdf($options);
         $dompdf->loadHtml($html);
         $dompdf->setPaper('A4', 'landscape');
@@ -83,14 +83,14 @@ class CertificateService
 
         // Ensure directory exists
         $directory = dirname($fullPath);
-        if (!File::exists($directory)) {
+        if (! File::exists($directory)) {
             File::makeDirectory($directory, 0755, true);
         }
 
         File::put($fullPath, $pdfContent);
-        
+
         $certificate->update(['pdf_path' => $path]);
-        
+
         return $path;
     }
 
@@ -101,16 +101,16 @@ class CertificateService
     {
         $templateStyle = Setting::get('hall_of_fame_certificate_template_style', 'professional');
         $templateName = $this->getTemplateForStyle($templateStyle);
-        
+
         // Get all dynamic settings
         $settings = $this->getCertificateSettings();
-        
+
         // Generate QR code if enabled
         $qrCodeUrl = $settings['include_qr_code'] ? $this->generateQrCode($certificate) : null;
-        
+
         // Get PGP signature if required
         $pgpSignature = $settings['signature_required'] ? $this->getPgpSignature($certificate) : null;
-        
+
         return View::make($templateName, [
             'certificate' => $certificate,
             'settings' => $settings,
@@ -144,15 +144,15 @@ class CertificateService
     public function signCertificate(Certificate $certificate): bool
     {
         $signingKey = PgpKey::getActiveSigningKey();
-        
-        if (!$signingKey || !$certificate->hasPdf()) {
+
+        if (! $signingKey || ! $certificate->hasPdf()) {
             return false;
         }
 
         try {
             $pdfContent = File::get(public_path($certificate->pdf_path));
             $signature = $this->pgpService->signText($pdfContent, $signingKey);
-            
+
             if ($signature) {
                 $certificate->update([
                     'pgp_signature' => $signature,
@@ -161,7 +161,7 @@ class CertificateService
 
                 // Create signed PDF with embedded signature
                 $this->createSignedPdf($certificate, $signature);
-                
+
                 return true;
             }
         } catch (\Exception $e) {
@@ -177,11 +177,11 @@ class CertificateService
     protected function createSignedPdf(Certificate $certificate, string $signature): void
     {
         $html = $this->renderSignedCertificateHtml($certificate, $signature);
-        
+
         $options = new Options();
         $options->set('defaultFont', 'Arial');
         $options->set('isRemoteEnabled', true);
-        
+
         $dompdf = new Dompdf($options);
         $dompdf->loadHtml($html);
         $dompdf->setPaper('A4', 'landscape');
@@ -193,7 +193,7 @@ class CertificateService
         $fullPath = public_path($path);
 
         File::put($fullPath, $pdfContent);
-        
+
         $certificate->update(['signed_pdf_path' => $path]);
     }
 
@@ -218,7 +218,7 @@ class CertificateService
     {
         return "This certificate acknowledges {$report->researcher_name} for responsibly " .
                "disclosing a {$report->vulnerability_type} vulnerability in our systems. " .
-               "The reported issue has been verified, addressed, and resolved by our security team.";
+               'The reported issue has been verified, addressed, and resolved by our security team.';
     }
 
     /**
@@ -227,13 +227,13 @@ class CertificateService
     protected function getCertificateLogo(): string
     {
         $logoSetting = setting('hall_of_fame_certificate_logo');
-        
+
         if ($logoSetting) {
             return RvMedia::getImageUrl($logoSetting);
         }
-        
-    // Use the plugin's PNG logo from local filesystem for Dompdf
-    return public_path('vendor/core/plugins/hall-of-fame/images/logo.png');
+
+        // Use the plugin's PNG logo from local filesystem for Dompdf
+        return public_path('vendor/core/plugins/hall-of-fame/images/logo.png');
     }
 
     /**
@@ -242,13 +242,13 @@ class CertificateService
     protected function getSignatureImage(): string
     {
         $signatureSetting = setting('hall_of_fame_certificate_signature');
-        
+
         if ($signatureSetting) {
             return RvMedia::getImageUrl($signatureSetting);
         }
-        
-    // Use the plugin's PNG signature from local filesystem for Dompdf
-    return public_path('vendor/core/plugins/hall-of-fame/images/signature.png');
+
+        // Use the plugin's PNG signature from local filesystem for Dompdf
+        return public_path('vendor/core/plugins/hall-of-fame/images/signature.png');
     }
 
     /**
@@ -257,11 +257,11 @@ class CertificateService
     protected function getCertificateBackground(): string
     {
         $backgroundSetting = setting('hall_of_fame_certificate_background');
-        
+
         if ($backgroundSetting) {
             return RvMedia::getImageUrl($backgroundSetting);
         }
-        
+
         // Use the plugin's background
         return asset('vendor/core/plugins/hall-of-fame/images/certificate-bg.svg');
     }
@@ -272,8 +272,8 @@ class CertificateService
     public function verifyCertificate(string $certificateId): array
     {
         $certificate = Certificate::where('certificate_id', $certificateId)->first();
-        
-        if (!$certificate) {
+
+        if (! $certificate) {
             return [
                 'valid' => false,
                 'message' => 'Certificate not found',
@@ -302,15 +302,17 @@ class CertificateService
      */
     protected function verifyPgpSignature(Certificate $certificate): bool
     {
-        if (!$certificate->hasPdf() || !$certificate->pgp_signature) {
+        if (! $certificate->hasPdf() || ! $certificate->pgp_signature) {
             return false;
         }
 
         try {
             $pdfContent = File::get(public_path($certificate->pdf_path));
+
             return $this->pgpService->verifySignature($pdfContent, $certificate->pgp_signature);
         } catch (\Exception $e) {
             Log::error('Certificate signature verification failed: ' . $e->getMessage());
+
             return false;
         }
     }
@@ -341,7 +343,7 @@ class CertificateService
                                     ->get();
 
         $generated = 0;
-        
+
         foreach ($reports as $report) {
             try {
                 $this->generateCertificate($report);
@@ -362,12 +364,13 @@ class CertificateService
         try {
             // Generate verification URL
             $verificationUrl = url("/verify/certificate/{$certificate->certificate_id}");
-            
+
             // For now, return the URL - in production you might want to use a QR library
             // to generate actual QR code image data
             return $verificationUrl;
         } catch (\Exception $e) {
             Log::error('Failed to generate QR code: ' . $e->getMessage());
+
             return null;
         }
     }
@@ -381,15 +384,16 @@ class CertificateService
             if ($certificate->is_signed && $certificate->pgp_signature) {
                 return $certificate->pgp_signature;
             }
-            
+
             // If signature is required but not yet generated, create it
             if (Setting::get('hall_of_fame_certificate_signature_required', true)) {
                 return $this->generatePgpSignature($certificate);
             }
-            
+
             return null;
         } catch (\Exception $e) {
             Log::error('Failed to get PGP signature: ' . $e->getMessage());
+
             return null;
         }
     }
@@ -402,30 +406,32 @@ class CertificateService
         try {
             // Get active signing key
             $signingKey = PgpKey::getActiveSigningKey();
-            if (!$signingKey) {
+            if (! $signingKey) {
                 Log::warning('No active signing key available for certificate signature');
+
                 return null;
             }
-            
+
             // Get certificate content for signing
             $content = $this->getCertificateContentForSigning($certificate);
-            
+
             // Use PGP service to create signature
             $signature = $this->pgpService->signText($content, $signingKey);
-            
+
             if ($signature) {
                 // Save signature to certificate
                 $certificate->update([
                     'pgp_signature' => $signature,
-                    'is_signed' => true
+                    'is_signed' => true,
                 ]);
-                
+
                 return $signature;
             }
-            
+
             return null;
         } catch (\Exception $e) {
             Log::error('Failed to generate PGP signature: ' . $e->getMessage());
+
             return null;
         }
     }

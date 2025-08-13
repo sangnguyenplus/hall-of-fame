@@ -18,15 +18,16 @@ class HallOfFameAuth
     public function handle(Request $request, Closure $next)
     {
         // Check if researcher is authenticated via session
-        if (!session('hof_researcher')) {
+        if (! session('hof_researcher')) {
             return redirect()->route('public.hall-of-fame.auth.login')
                 ->with('error', trans('plugins/hall-of-fame::researcher.auth_required'));
         }
 
         // Verify researcher still exists
         $researcher = Researcher::find(session('hof_researcher'));
-        if (!$researcher) {
+        if (! $researcher) {
             session()->forget(['hof_researcher', 'hof_researcher_data']);
+
             return redirect()->route('public.hall-of-fame.auth.login')
                 ->with('error', trans('plugins/hall-of-fame::researcher.account_not_found'));
         }

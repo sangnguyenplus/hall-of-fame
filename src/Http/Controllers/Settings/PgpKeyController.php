@@ -71,7 +71,7 @@ class PgpKeyController extends BaseController
     {
         $file = $request->file('key_file');
         $keyContent = File::get($file->getRealPath());
-        
+
         $keyData = $this->pgpService->importKey($keyContent);
         $this->pgpService->storePgpKey($keyData, $request->key_name, $request->key_password);
     }
@@ -87,7 +87,7 @@ class PgpKeyController extends BaseController
         // For key generation, we'll create a mock key since actual GPG key generation
         // requires the GPG binary and more complex setup
         $keyPair = $this->generateMockKeyPair($request->generate_name, $request->generate_email);
-        
+
         $keyData = [
             'key_id' => $keyPair['key_id'],
             'fingerprint' => $keyPair['fingerprint'],
@@ -98,12 +98,12 @@ class PgpKeyController extends BaseController
         ];
 
         $pgpKey = $this->pgpService->storePgpKey($keyData, $request->key_name, $request->generate_password);
-        
+
         // Also store the public key separately
         $publicKeyData = $keyData;
         $publicKeyData['content'] = $keyPair['public_key'];
         $publicKeyData['is_private'] = false;
-        
+
         $this->pgpService->storePgpKey($publicKeyData, $request->key_name . ' (Public)', null);
     }
 
@@ -111,22 +111,22 @@ class PgpKeyController extends BaseController
     {
         $keyId = strtoupper(substr(md5($email . time()), 0, 16));
         $fingerprint = strtoupper(hash('sha256', $name . $email . time()));
-        
+
         $privateKey = "-----BEGIN PGP PRIVATE KEY BLOCK-----\n\n" .
                      "Generated for: {$name} <{$email}>\n" .
                      "Key ID: {$keyId}\n" .
                      "Fingerprint: {$fingerprint}\n" .
-                     "Generated: " . now()->toISOString() . "\n" .
+                     'Generated: ' . now()->toISOString() . "\n" .
                      base64_encode(random_bytes(256)) . "\n\n" .
-                     "-----END PGP PRIVATE KEY BLOCK-----";
+                     '-----END PGP PRIVATE KEY BLOCK-----';
 
         $publicKey = "-----BEGIN PGP PUBLIC KEY BLOCK-----\n\n" .
                     "Generated for: {$name} <{$email}>\n" .
                     "Key ID: {$keyId}\n" .
                     "Fingerprint: {$fingerprint}\n" .
-                    "Generated: " . now()->toISOString() . "\n" .
+                    'Generated: ' . now()->toISOString() . "\n" .
                     base64_encode(random_bytes(128)) . "\n\n" .
-                    "-----END PGP PUBLIC KEY BLOCK-----";
+                    '-----END PGP PUBLIC KEY BLOCK-----';
 
         return [
             'key_id' => $keyId,
@@ -147,7 +147,7 @@ class PgpKeyController extends BaseController
     public function activate(int $id, BaseHttpResponse $response)
     {
         $key = PgpKey::findOrFail($id);
-        
+
         // Deactivate all other keys of the same type
         PgpKey::where('can_sign', $key->can_sign)
               ->where('id', '!=', $key->id)
@@ -184,7 +184,7 @@ class PgpKeyController extends BaseController
     {
         try {
             $success = $this->pgpService->importProvidedKeys();
-            
+
             if ($success) {
                 return $response
                     ->setPreviousUrl(route('hall-of-fame.settings.pgp-keys.index'))
@@ -204,7 +204,7 @@ class PgpKeyController extends BaseController
     public function exportPublic(int $id)
     {
         $key = PgpKey::findOrFail($id);
-        
+
         $headers = [
             'Content-Type' => 'application/pgp-keys',
             'Content-Disposition' => 'attachment; filename="' . $key->key_name . '_public.asc"',
@@ -217,10 +217,10 @@ class PgpKeyController extends BaseController
     {
         try {
             $key = PgpKey::findOrFail($id);
-            $testText = "Test signing message - " . now()->toISOString();
-            
+            $testText = 'Test signing message - ' . now()->toISOString();
+
             $signature = $this->pgpService->signText($testText, $key);
-            
+
             if ($signature) {
                 return $response
                     ->setData(['signature' => $signature])

@@ -2,9 +2,9 @@
 
 namespace Whozidis\HallOfFame\Services;
 
-use Whozidis\HallOfFame\Models\PgpKey;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
+use Whozidis\HallOfFame\Models\PgpKey;
 
 class PgpService
 {
@@ -23,7 +23,7 @@ class PgpService
      */
     protected function ensureGnupgDirectory(): void
     {
-        if (!File::exists($this->gnupgHome)) {
+        if (! File::exists($this->gnupgHome)) {
             File::makeDirectory($this->gnupgHome, 0700, true);
         }
     }
@@ -47,11 +47,12 @@ class PgpService
      */
     public function importKeyFromFile(string $filePath): array
     {
-        if (!File::exists($filePath)) {
+        if (! File::exists($filePath)) {
             throw new \Exception("Key file not found: {$filePath}");
         }
 
         $keyContent = File::get($filePath);
+
         return $this->importKey($keyContent);
     }
 
@@ -60,17 +61,17 @@ class PgpService
      */
     public function importKey(string $keyContent): array
     {
-        if (!$this->gnupg) {
+        if (! $this->gnupg) {
             return $this->parseKeyManually($keyContent);
         }
 
         try {
-            if (!function_exists('gnupg_import')) {
+            if (! function_exists('gnupg_import')) {
                 throw new \Exception('GnuPG import function not available');
             }
             // noinspection PhpUndefinedFunctionInspection
             $result = call_user_func('gnupg_import', $this->gnupg, $keyContent);
-            
+
             if ($result === false) {
                 throw new \Exception('Failed to import PGP key');
             }
@@ -78,6 +79,7 @@ class PgpService
             return $this->parseImportResult($result, $keyContent);
         } catch (\Exception $e) {
             Log::error('PGP key import failed: ' . $e->getMessage());
+
             return $this->parseKeyManually($keyContent);
         }
     }
@@ -90,7 +92,7 @@ class PgpService
         $isPrivate = str_contains($keyContent, '-----BEGIN PGP PRIVATE KEY BLOCK-----');
         $isPublic = str_contains($keyContent, '-----BEGIN PGP PUBLIC KEY BLOCK-----');
 
-        if (!$isPrivate && !$isPublic) {
+        if (! $isPrivate && ! $isPublic) {
             throw new \Exception('Invalid PGP key format');
         }
 
@@ -118,7 +120,7 @@ class PgpService
         if (preg_match('/Key ID:\s*([A-Fa-f0-9]+)/i', $keyContent, $matches)) {
             return strtoupper($matches[1]);
         }
-        
+
         // Generate a pseudo key ID based on content hash
         return strtoupper(substr(md5($keyContent), 0, 16));
     }
@@ -132,7 +134,7 @@ class PgpService
         if (preg_match('/Fingerprint:\s*([A-Fa-f0-9\s]+)/i', $keyContent, $matches)) {
             return strtoupper(str_replace(' ', '', $matches[1]));
         }
-        
+
         // Generate a pseudo fingerprint based on content hash
         return strtoupper(hash('sha256', $keyContent));
     }
@@ -145,7 +147,7 @@ class PgpService
         if (preg_match('/<([^>]+@[^>]+)>/', $keyContent, $matches)) {
             return $matches[1];
         }
-        
+
         return null;
     }
 
@@ -156,7 +158,7 @@ class PgpService
     {
         $fingerprint = $result['fingerprint'] ?? '';
         $keyId = substr($fingerprint, -16) ?: 'UNKNOWN';
-        
+
         return [
             'key_id' => $keyId,
             'fingerprint' => $fingerprint,
@@ -174,18 +176,18 @@ class PgpService
      */
     public function signText(string $text, PgpKey $key): ?string
     {
-        if (!$this->gnupg || !$key->private_key) {
+        if (! $this->gnupg || ! $key->private_key) {
             return $this->createDetachedSignature($text, $key);
         }
 
         try {
-            if (!function_exists('gnupg_clearsignkeys') || !function_exists('gnupg_addsignkey') || !function_exists('gnupg_detachsign')) {
+            if (! function_exists('gnupg_clearsignkeys') || ! function_exists('gnupg_addsignkey') || ! function_exists('gnupg_detachsign')) {
                 throw new \Exception('GnuPG signing functions not available');
             }
             // Clear any previous signing keys
             // noinspection PhpUndefinedFunctionInspection
             call_user_func('gnupg_clearsignkeys', $this->gnupg);
-            
+
             // Add signing key with password
             // noinspection PhpUndefinedFunctionInspection
             call_user_func('gnupg_addsignkey', $this->gnupg, $key->key_id, $key->key_password);
@@ -196,10 +198,11 @@ class PgpService
             if ($signature === false) {
                 throw new \Exception('Failed to create detached signature');
             }
-            
+
             return $signature;
         } catch (\Exception $e) {
             Log::error('PGP signing failed: ' . $e->getMessage());
+
             return $this->createDetachedSignature($text, $key);
         }
     }
@@ -211,13 +214,13 @@ class PgpService
     {
         $hash = hash('sha256', $text);
         $timestamp = time();
-        
+
         return "-----BEGIN PGP SIGNATURE-----\n\n" .
                "Signed with key: {$key->key_id}\n" .
                "Content hash: {$hash}\n" .
                "Timestamp: {$timestamp}\n" .
-               "Signature: " . hash('sha256', $text . $key->key_id . $timestamp) . "\n\n" .
-               "-----END PGP SIGNATURE-----";
+               'Signature: ' . hash('sha256', $text . $key->key_id . $timestamp) . "\n\n" .
+               '-----END PGP SIGNATURE-----';
     }
 
     /**
@@ -225,19 +228,21 @@ class PgpService
      */
     public function verifySignature(string $text, string $signature): bool
     {
-        if (!$this->gnupg) {
+        if (! $this->gnupg) {
             return $this->verifyDetachedSignature($text, $signature);
         }
 
         try {
-            if (!function_exists('gnupg_verify')) {
+            if (! function_exists('gnupg_verify')) {
                 throw new \Exception('GnuPG verify function not available');
             }
             // noinspection PhpUndefinedFunctionInspection
             $result = call_user_func('gnupg_verify', $this->gnupg, $text, $signature);
+
             return is_array($result) && count($result) > 0;
         } catch (\Exception $e) {
             Log::error('PGP verification failed: ' . $e->getMessage());
+
             return $this->verifyDetachedSignature($text, $signature);
         }
     }
@@ -257,12 +262,12 @@ class PgpService
      */
     public function encryptText(string $text, PgpKey $key): ?string
     {
-        if (!$this->gnupg) {
+        if (! $this->gnupg) {
             return $this->createMockEncryption($text, $key);
         }
 
         try {
-            if (!function_exists('gnupg_clearencryptkeys') || !function_exists('gnupg_addencryptkey') || !function_exists('gnupg_encrypt')) {
+            if (! function_exists('gnupg_clearencryptkeys') || ! function_exists('gnupg_addencryptkey') || ! function_exists('gnupg_encrypt')) {
                 throw new \Exception('GnuPG encryption functions not available');
             }
             // noinspection PhpUndefinedFunctionInspection
@@ -275,10 +280,11 @@ class PgpService
             if ($encrypted === false) {
                 throw new \Exception('Failed to encrypt text');
             }
-            
+
             return $encrypted;
         } catch (\Exception $e) {
             Log::error('PGP encryption failed: ' . $e->getMessage());
+
             return $this->createMockEncryption($text, $key);
         }
     }
@@ -289,11 +295,11 @@ class PgpService
     protected function createMockEncryption(string $text, PgpKey $key): string
     {
         $encoded = base64_encode($text);
-        
+
         return "-----BEGIN PGP MESSAGE-----\n\n" .
                "Encrypted for: {$key->key_id}\n" .
                "Content: {$encoded}\n\n" .
-               "-----END PGP MESSAGE-----";
+               '-----END PGP MESSAGE-----';
     }
 
     /**
@@ -307,17 +313,17 @@ class PgpService
         $pgpKey->key_email = $keyData['email'];
         $pgpKey->key_fingerprint = $keyData['fingerprint'];
         $pgpKey->public_key = $keyData['content'];
-        
+
         if ($keyData['is_private']) {
             $pgpKey->private_key = $keyData['content'];
             $pgpKey->key_password = $password;
             $pgpKey->can_sign = true;
         }
-        
+
         $pgpKey->can_encrypt = $keyData['is_public'] || $keyData['is_private'];
         $pgpKey->key_info = $keyData;
         $pgpKey->save();
-        
+
         return $pgpKey;
     }
 
@@ -346,6 +352,7 @@ class PgpService
             return true;
         } catch (\Exception $e) {
             Log::error('Failed to import provided keys: ' . $e->getMessage());
+
             return false;
         }
     }

@@ -1,6 +1,6 @@
 <?php
 
-if (!function_exists('get_gravatar')) {
+if (! function_exists('get_gravatar')) {
     /**
      * Get either a Gravatar URL or complete image tag for a specified email address.
      *
